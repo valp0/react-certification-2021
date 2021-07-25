@@ -3,6 +3,8 @@
 }
 
 .homepage h1 {
-  font-size: 3rem;
+  font-size: 3.5rem;
   letter-spacing: -2px;
+  padding: 0 25px;
+  font-family: Candara, Times;
 }
