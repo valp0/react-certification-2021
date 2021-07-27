@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import noAcc from '../Header/user_not-logged-in.png';
 
 const AvatarComp = styled.img`
   vertical-align: middle;
@@ -11,7 +12,7 @@ const AvatarComp = styled.img`
 `;
 
 function Avatar(props) {
-  return <AvatarComp src={props.src} alt="Avatar" />;
+  return <AvatarComp src={props.src || noAcc} alt="Avatar" />;
 }
 
 export default Avatar;

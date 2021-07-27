@@ -8,6 +8,7 @@ const List = styled.div`
   justify-content: center;
   grid-template-columns: repeat(auto-fill, 345px);
   grid-gap: 20px;
+  margin-bottom: 20px;
 `;
 
 function VideoList() {
@@ -15,7 +16,7 @@ function VideoList() {
     return index !== 0 && <VideoCard key={index} video={item} />;
   });
 
-  return <List>{list}</List>;
+  return <List data-testid="video-list">{list}</List>;
 }
 
 export default VideoList;

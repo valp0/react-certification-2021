@@ -55,7 +55,7 @@ function VideoCard(props) {
   const video = props.video.snippet;
 
   return (
-    <Card>
+    <Card data-testid='video-card'>
       <Img src={video.thumbnails.medium.url} />
       <Title> {video.title} </Title>
       <Description> {video.description} </Description>
