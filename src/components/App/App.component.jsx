@@ -33,7 +33,7 @@ function App() {
   return (
     <BrowserRouter>
       {/* <AuthProvider> */}
-      <Layout>
+      <Layout name="layout">
         <Switch>
           <Route exact path="/">
             <HomePage />

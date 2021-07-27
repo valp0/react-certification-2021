@@ -59,7 +59,7 @@ function Header() {
   const [avatarSrc] = useState(noAcc);
 
   return (
-    <SHeader>
+    <SHeader name="header">
       <FlexContainer>
         <HButton>
           <NavButton />
@@ -73,7 +73,6 @@ function Header() {
       <FlexContainer>
         <HToggle>
           <Toggle />
-          <span> Dark mode </span>
         </HToggle>
 
         <HAvatar>

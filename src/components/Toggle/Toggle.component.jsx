@@ -4,7 +4,9 @@ import styled from 'styled-components';
 const Wrapper = styled.label`
   position: relative;
   top: 10px;
-  margin: 0 7px;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
 `;
 
 const Input = styled.input`
@@ -21,8 +23,8 @@ const Input = styled.input`
 `;
 
 const Slider = styled.span`
+  margin: 0 7px;
   display: flex;
-  cursor: pointer;
   width: 36px;
   height: 8px;
   border-radius: 100px;
@@ -42,11 +44,18 @@ const Slider = styled.span`
   }
 `;
 
+const Text = styled.span`
+  position: relative;
+  margin: 0;
+  top: -10px;
+`;
+
 function Toggle() {
   return (
     <Wrapper>
       <Input type="checkbox" />
       <Slider />
+      <Text> Dark mode </Text>
     </Wrapper>
   );
 }
