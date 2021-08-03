@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components';
 
 const cardEntrance = keyframes`
@@ -35,12 +36,14 @@ const Card = styled.div`
 const Img = styled.img`
   width: 343px;
   border-radius: 7px 7px 0 0;
+  overflow: hidden;
 `;
 
 const Title = styled.div`
   font-size: 14pt;
   line-height: 17pt;
-  margin: 12px 7px;
+  overflow: hidden;
+  margin: 5px 7px;
   text-align: left;
 `;
 
@@ -48,7 +51,14 @@ const Description = styled.div`
   font-size: 10pt;
   color: darkgray;
   text-align: left;
-  margin: -5px 7px 5px 7px;
+  overflow: hidden;
+  margin: 0px 7px 0px 7px;
+`;
+
+const Anchor = styled(Link)`
+  text-decoration: none;
+  overflow: hidden;
+  color: none;
 `;
 
 function VideoCard(props) {
@@ -56,9 +66,11 @@ function VideoCard(props) {
 
   return (
     <Card data-testid='video-card'>
-      <Img src={video.thumbnails.medium.url} />
-      <Title> {video.title} </Title>
-      <Description> {video.description} </Description>
+      <Anchor to={`/watch/${props.video.id.videoId}`} >
+        <Img src={video.thumbnails.medium.url} alt="thumbnail" />
+        <Title title="title"> {video.title} </Title>
+        <Description title="description"> {video.description} </Description>
+      </Anchor>
     </Card>
   );
 }

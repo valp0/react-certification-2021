@@ -29,19 +29,30 @@ body {
     #b49fda 79%,
     #7ac5d8 100%
   ); */
-  background-image: linear-gradient(
-    120deg,
-    #f79b9b 0,
-    #f7bb9b 19%,
-    #f7bb9b 42%,
-    #f9dccc 79%,
-    #ffffff 100%
-  );
+  /* background-image: linear-gradient(120deg,
+      #ffbc95 1%,
+      #ffccb1 19%,
+      #ffd5be 42%,
+      #f9dccc 79%,
+      #ffffff 100%); */
+  /* background-color: rgba(255, 126, 20, 0.37); */
+  /* background: linear-gradient(#fff, #555); */
+  background-color: rgba(77, 77, 77, 0.07);
+  /* background-image: linear-gradient(120deg,
+      #777 0,
+      #999 19%,
+      #ccc 42%,
+      #eee 79%,
+      #fff 100%); */
   background-size: 400% 400%;
   background-position: var(--bg-position);
   transition: background-position 2s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+nav {
+  background-color: rgb(238, 59, 27);
 }
 
 .separator::before {
@@ -52,13 +63,56 @@ body {
 
 a {
   text-decoration: none;
-  font-weight: bold;
-  color: white;
+  color: black;
 }
 
-a:active {
+/* a:active {
   color: blueviolet;
+} */
+
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
 }
 
-hr {
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px lightgrey;
+  border-radius: 2px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 2px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #575757;
+}
+
+/* Handle active */
+::-webkit-scrollbar-thumb:active {
+  background: #3d3d3d;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border-left-color: darkred;
+  animation: spin 0.5s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const TextBox = styled.input`
@@ -32,12 +32,31 @@ const TextBox = styled.input`
 `;
 
 function SearchBox(props) {
+  const [value, setValue] = useState("");
+
+  function searchIt(e) {
+    let search = e.target.value.trim()
+    props.handler(search);
+  }
+
+  function handleChange(e) {
+    setValue(e.target.value);
+    if (e.keyCode === 13) searchIt(e);
+  }
+
+  function query(e) {
+    if (e.keyCode === 13) searchIt(e);
+  }
+
   return (
     <TextBox
       className="search-box"
       data-testid="search-box"
       type="text"
-      placeholder={props.placeholder}
+      placeholder="Search"
+      value={value}
+      onChange={handleChange}
+      onKeyDown={query}
     />
   );
 }
