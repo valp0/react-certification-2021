@@ -1,10 +1,6 @@
-.homepage {
-  text-align: center;
-}
-
-.homepage h1 {
+h1 {
   font-size: 3.5rem;
-  letter-spacing: -2px;
-  padding: 0 25px;
+  letter-spacing: -1px;
   font-family: Candara, Times;
+  margin-top: 20px;
 }

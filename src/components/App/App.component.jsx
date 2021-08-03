@@ -1,42 +1,34 @@
-import React, { useLayoutEffect } from 'react';
+import React, { /*useLayoutEffect,*/ useState } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Header from '../Header';
 
 // import AuthProvider from '../../providers/Auth';
 import HomePage from '../../pages/Home';
+import Player from '../../pages/Player';
 import LoginPage from '../../pages/Login';
 import NotFound from '../../pages/NotFound';
 import SecretPage from '../../pages/Secret';
 import Private from '../Private';
-// import Fortune from '../Fortune';
-import Layout from '../Layout';
-import { random } from '../../utils/fns';
+// Image from https://pic.onlinewebfonts.com/svg/img_333639.png
+import noAcc from './user_not-logged-in.png';
 
 function App() {
-  useLayoutEffect(() => {
-    const { body } = document;
 
-    function rotateBackground() {
-      const xPercent = random(100);
-      const yPercent = random(100);
-      body.style.setProperty('--bg-position', `${xPercent}% ${yPercent}%`);
-    }
+  const [query, setQuery] = useState("wizeline");
+  const [avatarSrc] = useState(noAcc);
 
-    const intervalId = setInterval(rotateBackground, 1000);
-    body.addEventListener('click', rotateBackground);
-
-    return () => {
-      clearInterval(intervalId);
-      body.removeEventListener('click', rotateBackground);
-    };
-  }, []);
+  function updateSearch(newSearch) {
+    setQuery(newSearch);
+  }
 
   return (
     <BrowserRouter>
       {/* <AuthProvider> */}
-      <Layout name="layout">
+      <Header handler={updateSearch} avatar={avatarSrc} />
+      <main name="layout">
         <Switch>
           <Route exact path="/">
-            <HomePage />
+            <HomePage query={query} />
           </Route>
           <Route exact path="/login">
             <LoginPage />
@@ -44,12 +36,17 @@ function App() {
           <Private exact path="/secret">
             <SecretPage />
           </Private>
+          <Route exact path="/watch/:id">
+            <Player />
+          </Route>
+          <Route path="/404">
+            <NotFound />
+          </Route>
           <Route path="*">
             <NotFound />
           </Route>
         </Switch>
-        {/* <Fortune /> */}
-      </Layout>
+      </main>
       {/* </AuthProvider> */}
     </BrowserRouter>
   );

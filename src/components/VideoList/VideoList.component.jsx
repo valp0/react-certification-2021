@@ -1,22 +1,21 @@
 import React from 'react';
-import { result } from '../../mock/youtube-videos-mock';
 import VideoCard from '../VideoCard';
 import styled from 'styled-components';
+// import { result } from '../../mock/youtube-videos-mock';
+// const mock = result.items;
 
 const List = styled.div`
   display: grid;
   justify-content: center;
   grid-template-columns: repeat(auto-fill, 345px);
   grid-gap: 20px;
-  margin-bottom: 20px;
 `;
 
-function VideoList() {
-  const list = result.items.map((item, index) => {
-    return index !== 0 && <VideoCard key={index} video={item} />;
-  });
+function VideoList({ videos }) {
+  // if (videos === null) videos = mock;
+  let output = videos.map(item => item.snippet && <VideoCard key={item.id.videoId} video={item} />);
 
-  return <List data-testid="video-list">{list}</List>;
+  return <List data-testid="video-list">{output}</List>;
 }
 
 export default VideoList;

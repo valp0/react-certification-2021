@@ -18,14 +18,14 @@ const Button = styled.button`
   padding: 0px 2px;
   transition: 0.2s ease-out;
   &:hover {
-    background-color: rgba(255, 255, 30, 0.25);
-    box-shadow: 0px 0px 37px rgba(255, 255, 30, 1);
+    background-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0px 0px 37px rgba(255, 255, 255, 1);
   }
   &:active {
     padding: 0px 2.5px;
-    background-color: rgb(223, 2, 2);
+    background-color: rgba(77, 77, 77, 0.3);
     border-style: inset;
-    border-color: rgb(200, 0, 0);
+    border-color: rgba(37, 37, 37, 0.27);
   }
 `;
 

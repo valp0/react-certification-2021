@@ -6,10 +6,10 @@ afterEach(cleanup);
 beforeEach(() => render(<SearchBox />));
 
 describe('search box', () => {
-    test('search box renders', () => {
-        const searchBox = screen.queryByRole('textbox');
-        expect(searchBox).toBeInTheDocument();
-    });
+  test('search box renders', () => {
+    const searchBox = screen.queryByRole('textbox');
+    expect(searchBox).toBeInTheDocument();
+  });
 
-    test.todo('should change search state when entering new query');
+  test.todo('should change search state when entering new query');
 });
