@@ -68,7 +68,7 @@ function VideoDetail({ id }) {
     <Detail data-testid="video-details">
       <YTFrame src={`https://www.youtube.com/embed/${id}`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
       <VideoTitle>{details[0].snippet.title}</VideoTitle>
-      <Description>{details[0].snippet.title}</Description>
+      <Description>{details[0].snippet.description}</Description>
     </Detail>
   )
 }
