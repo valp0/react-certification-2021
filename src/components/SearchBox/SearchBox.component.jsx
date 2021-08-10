@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useHistory } from "react-router-dom";
 
 const TextBox = styled.input`
   width: 50vw;
@@ -33,19 +34,24 @@ const TextBox = styled.input`
 
 function SearchBox(props) {
   const [value, setValue] = useState("");
+  const history = useHistory();
+  const ENTER_KEY = 13;
 
   function searchIt(e) {
     let search = e.target.value.trim()
     props.handler(search);
+    const currentPath = window.location.pathname;
+    if (currentPath !== '/') {
+      history.push('/');
+    }
   }
 
   function handleChange(e) {
     setValue(e.target.value);
-    if (e.keyCode === 13) searchIt(e);
   }
 
   function query(e) {
-    if (e.keyCode === 13) searchIt(e);
+    if (e.keyCode === ENTER_KEY) searchIt(e);
   }
 
   return (

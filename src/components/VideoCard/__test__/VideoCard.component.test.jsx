@@ -1,7 +1,7 @@
 import { render, cleanup, screen } from '@testing-library/react';
 import VideoCard from '../';
 import { result } from '../../../mock/youtube-videos-mock';
-const video = result.items[1]; // Using sample video
+const video = result.data.items[1]; // Using sample video
 import React from 'react';
 
 import { createMemoryHistory } from 'history'
@@ -17,22 +17,22 @@ beforeEach(() => render(
 
 describe('video card', () => {
   test('card renders', () => {
-    const videoCard = screen.queryByTestId('video-card');
+    const videoCard = screen.getByTestId('video-card');
     expect(videoCard).toBeInTheDocument();
   });
 
   test('thumbnail renders', () => {
-    const thumbnail = screen.queryByAltText('thumbnail');
+    const thumbnail = screen.getByAltText('thumbnail');
     expect(thumbnail).toBeInTheDocument();
   });
 
   test('title renders', () => {
-    const title = screen.queryByTitle('title');
+    const title = screen.getByTitle('title');
     expect(title).toBeInTheDocument();
   });
 
   test('description renders', () => {
-    const description = screen.queryByTitle('description');
+    const description = screen.getByTitle('description');
     expect(description).toBeInTheDocument();
   });
 

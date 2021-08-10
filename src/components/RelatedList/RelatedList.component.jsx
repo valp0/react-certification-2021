@@ -16,7 +16,13 @@ const List = styled.div`
 `;
 
 function RelatedList({ id }) {
-  let params = `relatedToVideoId=${id}&type=video&part=id,snippet&order=relevance&maxResults=12`;
+  let params = {
+    relatedToVideoId: id,
+    type: 'video',
+    part: ['id', 'snippet'],
+    order: 'relevance',
+    maxResults: 12
+  }
 
   const [related, isLoading, error] = useYTApi({ endpoint: 'search', params: params });
 
@@ -28,8 +34,8 @@ function RelatedList({ id }) {
     return <div>No related videos were found!</div>;
   }
 
-  const output = related.map(item => item.snippet && <RelatedCard key={item.id.videoId} id={item.id.videoId} img={item.snippet.thumbnails.medium} title={item.snippet.title} />);
-  return <List> {output} </List>;
+  const output = related.map(item => item.snippet && <RelatedCard key={item.id.videoId} id={item.id.videoId} img={item.snippet.thumbnails.medium.url} title={item.snippet.title} />);
+  return <List title="related-list"> {output} </List>;
 }
 
 export default RelatedList;

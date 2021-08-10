@@ -1,8 +1,6 @@
 import React from 'react';
-// import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import VideoList from '../../components/VideoList';
-import './Home.styles.css';
 import { useYTApi } from '../../utils/hooks/useYTApi';
 
 const Container = styled.div`
@@ -17,33 +15,45 @@ const Spinner = styled.div`
   margin: auto;
 `;
 
+const Welcome = styled.h1`
+  font-size: 3.5rem;
+  letter-spacing: -1px;
+  font-family: Candara, Times;
+  margin-top: 20px;
+`;
+
 function HomePage({ query }) {
-  // const history = useHistory();
-  let params = `q=${query}&type=video&part=id,snippet&order=relevance&maxResults=12`;
+  let params = {
+    q: query,
+    type: 'video',
+    part: ['id', 'snippet'],
+    order: 'relevance',
+    maxResults: 12
+  }
 
   const [videos, isLoading, error] = useYTApi({ endpoint: 'search', params: params });
 
   if (isLoading || videos === null || videos === undefined) {
     return (
       <Container>
-        <h1 className="welcome">Welcome to the Challenge!</h1>
-        <Spinner className="spinner" data-testid="video-list" />
+        <Welcome>Welcome to the Challenge!</Welcome>
+        <Spinner className="spinner" data-testid="spinner" />
       </Container>
     )
   }
 
-  if (error || videos.length < 1) {
+  if (error) {
     return (
       <Container>
-        <h1 className="welcome">Welcome to the Challenge!</h1>
-        <h5 data-testid="video-list" >Couldn't find any videos for your search</h5>
+        <Welcome>Welcome to the Challenge!</Welcome>
+        <h5>Couldn&apos;t find any videos for your search :(</h5>
       </Container>
     )
   }
 
   return (
     <Container>
-      <h1 className="welcome">Welcome to the Challenge!</h1>
+      <Welcome>Welcome to the Challenge!</Welcome>
       <VideoList videos={videos} data-testid="video-list" />
     </Container>
   );

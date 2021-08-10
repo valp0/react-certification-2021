@@ -1,8 +1,6 @@
 import React from 'react';
 import VideoCard from '../VideoCard';
 import styled from 'styled-components';
-// import { result } from '../../mock/youtube-videos-mock';
-// const mock = result.items;
 
 const List = styled.div`
   display: grid;
@@ -12,7 +10,6 @@ const List = styled.div`
 `;
 
 function VideoList({ videos }) {
-  // if (videos === null) videos = mock;
   let output = videos.map(item => item.snippet && <VideoCard key={item.id.videoId} video={item} />);
 
   return <List data-testid="video-list">{output}</List>;

@@ -1,14 +1,20 @@
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup, screen } from '@testing-library/react';
 import Toggle from '../';
 import React from 'react';
 
 afterEach(cleanup);
+beforeEach(() => render(<Toggle />));
 
 describe('toggle switch', () => {
-    test('toggle switch renders', () => {
-        const { getByText } = render(<Toggle />);
-        expect(getByText('Dark mode')).toBeInTheDocument();
-    });
+  test('toggle switch renders', () => {
+    const toggle = screen.getByRole('checkbox')
+    expect(toggle).toBeInTheDocument();
+  });
 
-    test.todo('should toggle dark mode when clicked')
+  test('"dark mode" renders', () => {
+    const text = screen.getByText('Dark mode');
+    expect(text).toBeInTheDocument();
+  });
+
+  test.todo('should toggle dark mode when clicked')
 });
