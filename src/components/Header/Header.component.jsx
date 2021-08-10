@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Avatar from '../Avatar';
 import Toggle from '../Toggle';
 import NavButton from '../NavButton';
 import SearchBox from '../SearchBox';
-// Image from https://pic.onlinewebfonts.com/svg/img_333639.png
-import noAcc from './user_not-logged-in.png';
 
 const HToggle = styled.label`
   position: relative;
@@ -42,21 +40,16 @@ const FlexContainer = styled.div`
 const SHeader = styled.nav`
   box-shadow: 0px 2px 4px rgba(100, 100, 100, 0.7);
   margin: 0px;
-  position: top;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   height: 3rem;
-  width: 100%;
-  background-color: red;
-  margin-bottom: 40px;
   overflow: hidden;
   padding: 0 10px;
 `;
 
-function Header() {
-  const [avatarSrc] = useState(noAcc);
+function Header(props) {
 
   return (
     <SHeader name="header">
@@ -66,7 +59,7 @@ function Header() {
         </HButton>
 
         <HSearchBox>
-          <SearchBox placeholder="Search" />
+          <SearchBox handler={props.handler} />
         </HSearchBox>
       </FlexContainer>
 
@@ -76,7 +69,7 @@ function Header() {
         </HToggle>
 
         <HAvatar>
-          <Avatar src={avatarSrc} />
+          <Avatar src={props.avatar} />
         </HAvatar>
       </FlexContainer>
     </SHeader>
