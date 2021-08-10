@@ -17,8 +17,7 @@ function useYTApi({ endpoint, params }) {
 
         // Will print endpoint and size of response whenever API is called
         console.log(
-          `Received ${responseItems.length} element${
-            responseItems.length > 1 ? 's' : ''
+          `Received ${responseItems.length} element${responseItems.length > 1 ? 's' : ''
           } from /${url.split('/')[5].split('?')[0]}.`
         );
 
