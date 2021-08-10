@@ -12,18 +12,22 @@ const PlayerLayout = styled.div`
   flex-direction: row;
   justify-content: space-between;
   padding: 20px;
+  padding-top: 27px;
   @media (max-width: 1015px) {
     flex-direction: column;
   }
 `;
 
-function Player() {
-  const { id } = useParams();
+function Player({ testId }) {
+  let { id } = useParams();
+  if (id === undefined) {
+    id = testId;
+  }
 
   return (
     <>
-      <Link to="/" className="home-link">
-        home
+      <Link style={{ position: "absolute", left: "calc(100vw - 90px)", top: "50px" }} to="/" className="home-link">
+        home {/* I know it looks ugly this way, but this button will disappear in the near future */}
       </Link>
       <PlayerLayout>
         <VideoDetail id={id} />

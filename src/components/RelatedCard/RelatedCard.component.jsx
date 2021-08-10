@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components';
 
 const Card = styled.div`
-  display: flex;
-  flex-direction: row;
   height: 100px;
   width: 427px;
   border: 1px solid transparent;
@@ -17,7 +15,7 @@ const Card = styled.div`
   }
   margin-bottom: 2px;
   @media (max-width: 1015px) {
-    width: calc(100vw - 58px);
+    width: calc(100vw - 44.4px);
   }
 `;
 
@@ -30,7 +28,7 @@ const Title = styled.div`
   font-size: 12pt;
   text-align: left;
   width: 252px;
-  max-height: 80px;
+  max-height: 100px;
   margin: auto 0;
   padding: 7px;
   overflow:hidden;
@@ -41,7 +39,8 @@ const Title = styled.div`
 
 const Anchor = styled(Link)`
   text-decoration: none;
-  color: none;
+  display: flex;
+  flex-direction: row;
   width: 427px;
   overflow: hidden;
   @media (max-width: 1015px) {
@@ -49,15 +48,15 @@ const Anchor = styled(Link)`
   }
 `;
 
-function VideoCard({ id, img, title }) {
+function RelatedCard({ id, img, title }) {
   return (
-    <Anchor to={`/watch/${id}`} >
-      <Card data-testid='video-card'>
-        <Img src={img.url} />
-        <Title> {title} </Title>
-      </Card>
-    </Anchor >
+    <Card data-testid='video-card'>
+      <Anchor to={`/watch/${id}`} >
+        <Img src={img} />
+        <Title title='title'> {title} </Title>
+      </Anchor >
+    </Card>
   );
 }
 
-export default VideoCard;
+export default RelatedCard;

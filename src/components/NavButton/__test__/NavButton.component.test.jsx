@@ -6,10 +6,10 @@ afterEach(cleanup);
 beforeEach(() => render(<NavButton />));
 
 describe('nav button', () => {
-    test('nav button renders', () => {
-        const navButton = screen.queryByRole('button');
-        expect(navButton).toBeInTheDocument();
-    });
+  test('nav button renders', () => {
+    const navButton = screen.getByRole('button');
+    expect(navButton).toBeInTheDocument();
+  });
 
-    test.todo('should render side menu when clicked');
+  test.todo('should render side menu when clicked');
 });

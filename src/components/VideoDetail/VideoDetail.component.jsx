@@ -5,15 +5,18 @@ import { Redirect } from 'react-router';
 
 const YTFrame = styled.iframe`
   --aspect-ratio: calc(16 / 9);
-  --width: calc(100vw - 503.8px);
+  --width: calc(100vw - 491.6px);
   --height: calc(var(--width) / var(--aspect-ratio));
   width: var(--width);
   height: var(--height);
   @media (max-width: 1015px) {
-    width: calc(100vw - 58px);
-    height: calc(calc(100vw - 40px) / var(--aspect-ratio));
+    width: calc(100vw - 44.4px);
+    height: calc(calc(100vw - 44.4px) / var(--aspect-ratio));
   }
   margin-bottom: -5px;
+  position: relative;
+  left: -1px;
+  top: -1px;
 `;
 
 const VideoTitle = styled.h2`
@@ -24,35 +27,34 @@ const VideoTitle = styled.h2`
   padding: 7px;
   border-right: 1px solid transparent;
   border-left: 1px solid transparent;
-  @media (max-width: 1015px) {
-    margin-right: 0px;
-  }
 `;
 
 const Description = styled.div`
-  color: darkgrey;
+  color: #777;
   padding: 7px;
   border-radius: 0 0 7px 7px;
   font-size: 11pt;
-  @media (max-width: 1015px) {
-    margin-right: 0px;
-  }
+  white-space: pre-wrap;
 `;
 
-const Detail = styled.div`;
-  width: calc(100vw - 503px);
+const Detail = styled.div`
+  width: calc(100vw - 491.6px);
   @media (max-width: 1015px) {
-    width: calc(100vw - 57.2px);
+    width: calc(100vw - 44.4px);
   }
+  background-color: white;
   border: 1px solid transparent;
   border-radius: 0 0 7px 7px;
   margin-bottom: auto;
   box-shadow: 0px 2px 7px 2px rgba(100, 100, 100, 0.7);
-  // box-shadow: 0px 7px 7px -7px rgba(100, 100, 100, 0.7);
+  padding-bottom: 7px;
 `;
 
 function VideoDetail({ id }) {
-  let params = `id=${id}&part=snippet`;
+  let params = {
+    id: id,
+    part: 'snippet'
+  }
 
   const [details, isLoading, error] = useYTApi({ endpoint: 'videos', params: params });
 
@@ -65,8 +67,8 @@ function VideoDetail({ id }) {
   }
 
   return (
-    <Detail data-testid="video-details">
-      <YTFrame src={`https://www.youtube.com/embed/${id}`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+    <Detail title="video-details">
+      <YTFrame src={`https://www.youtube-nocookie.com/embed/${id}`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
       <VideoTitle>{details[0].snippet.title}</VideoTitle>
       <Description>{details[0].snippet.description}</Description>
     </Detail>

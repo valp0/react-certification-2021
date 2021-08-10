@@ -6,8 +6,8 @@ afterEach(cleanup);
 beforeEach(() => render(<Avatar />));
 
 describe('avatar', () => {
-    test('avatar renders', () => {
-        const avatar = screen.queryByAltText('Avatar');
-        expect(avatar).toBeInTheDocument();
-    });
+  test('avatar renders', () => {
+    const avatar = screen.getByAltText('Avatar');
+    expect(avatar).toBeInTheDocument();
+  });
 });

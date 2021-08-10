@@ -1,14 +1,14 @@
-import React, { /*useLayoutEffect,*/ useState } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Header from '../Header';
 
-// import AuthProvider from '../../providers/Auth';
 import HomePage from '../../pages/Home';
 import Player from '../../pages/Player';
 import LoginPage from '../../pages/Login';
 import NotFound from '../../pages/NotFound';
 import SecretPage from '../../pages/Secret';
 import Private from '../Private';
+
 // Image from https://pic.onlinewebfonts.com/svg/img_333639.png
 import noAcc from './user_not-logged-in.png';
 
@@ -23,7 +23,6 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* <AuthProvider> */}
       <Header handler={updateSearch} avatar={avatarSrc} />
       <main name="layout">
         <Switch>
@@ -47,7 +46,6 @@ function App() {
           </Route>
         </Switch>
       </main>
-      {/* </AuthProvider> */}
     </BrowserRouter>
   );
 }

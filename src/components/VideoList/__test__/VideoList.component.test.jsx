@@ -2,7 +2,7 @@ import { render, cleanup, screen } from '@testing-library/react';
 import VideoList from '../';
 import React from 'react';
 import { result } from '../../../mock/youtube-videos-mock';
-const videos = result.items;
+const videos = result.data.items;
 
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom';
@@ -17,7 +17,7 @@ beforeEach(() => render(
 
 describe('video list', () => {
   test('video list renders', () => {
-    const videoList = screen.queryByTestId('video-list');
+    const videoList = screen.getByTestId('video-list');
     expect(videoList).toBeInTheDocument();
   });
 

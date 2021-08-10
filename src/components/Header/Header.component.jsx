@@ -38,6 +38,9 @@ const FlexContainer = styled.div`
 `;
 
 const SHeader = styled.nav`
+  position: sticky;
+  top: 0rem;
+  z-index: 10;
   box-shadow: 0px 2px 4px rgba(100, 100, 100, 0.7);
   margin: 0px;
   display: flex;
@@ -45,11 +48,10 @@ const SHeader = styled.nav`
   align-items: center;
   justify-content: space-between;
   height: 3rem;
-  overflow: hidden;
   padding: 0 10px;
 `;
 
-function Header(props) {
+function Header({ handler, avatar }) {
 
   return (
     <SHeader name="header">
@@ -59,7 +61,7 @@ function Header(props) {
         </HButton>
 
         <HSearchBox>
-          <SearchBox handler={props.handler} />
+          <SearchBox handler={handler} />
         </HSearchBox>
       </FlexContainer>
 
@@ -69,7 +71,7 @@ function Header(props) {
         </HToggle>
 
         <HAvatar>
-          <Avatar src={props.avatar} />
+          <Avatar src={avatar} />
         </HAvatar>
       </FlexContainer>
     </SHeader>

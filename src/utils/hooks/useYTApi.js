@@ -1,44 +1,46 @@
 import { useState, useEffect } from 'react';
-const API_URL = 'https://www.googleapis.com/youtube/v3';
-const API_KEY = process.env.REACT_APP_KEY4;
+import axios from 'axios';
+import { buildUrl } from '../fns';
 
 function useYTApi({ endpoint, params }) {
   const [response, setResponse] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(true);
+  const url = buildUrl(endpoint, params);
 
   useEffect(() => {
-    async function searchDetails({ route, queryParams }) {
+    async function callApi() {
       setIsLoading(true);
       try {
-        let res = await fetch(`${API_URL}/${route}?${queryParams}&key=${API_KEY}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-        });
+        const res = await axios.get(url);
+        const responseItems = res.data.items;
 
-        const data = await res.json();
-        let responseItems = data.items;
-
-        // console.log(responseItems);
+        // Will print endpoint and size of response whenever API is called
+        console.log(
+          `Received ${responseItems.length} element${
+            responseItems.length > 1 ? 's' : ''
+          } from /${url.split('/')[5].split('?')[0]}.`
+        );
 
         if (responseItems === undefined || responseItems.length < 1) {
           setError(true);
+          setResponse([]);
         } else {
-          setResponse(responseItems);
           setError(false);
+          setResponse(responseItems);
         }
       } catch (e) {
-        console.log(e.toString());
         setError(true);
+        setResponse([]);
+
+        console.log(e.toString());
       } finally {
-        setIsLoading(false);
+        setTimeout(() => setIsLoading(false), 100);
       }
     }
 
-    searchDetails({ route: endpoint, queryParams: params });
-  }, [endpoint, params]);
+    callApi();
+  }, [url]);
 
   return [response, isLoading, error];
 }
