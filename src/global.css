@@ -37,7 +37,6 @@ body {
       #ffffff 100%); */
   /* background-color: rgba(255, 126, 20, 0.37); */
   /* background: linear-gradient(#fff, #555); */
-  background-color: rgba(77, 77, 77, 0.07);
   /* background-image: linear-gradient(120deg,
       #777 0,
       #999 19%,
@@ -51,10 +50,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-nav {
-  background-color: rgb(238, 59, 27);
-}
-
 .separator::before {
   content: '•';
   color: white;
@@ -63,7 +58,7 @@ nav {
 
 a {
   text-decoration: none;
-  color: black;
+  color: inherit;
 }
 
 /* a:active {

@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import Avatar from '../Avatar';
 import Toggle from '../Toggle';
 import NavButton from '../NavButton';
 import SearchBox from '../SearchBox';
+import { StateContext } from '../../providers/State';
 
 const HToggle = styled.label`
   position: relative;
   display: flex;
   flex-direction: row;
-  padding: 0 20px;
+  padding: 0 14px;
   cursor: pointer;
   @media (max-width: 620px) {
     display: none;
@@ -41,7 +42,7 @@ const SHeader = styled.nav`
   position: sticky;
   top: 0rem;
   z-index: 10;
-  box-shadow: 0px 2px 4px rgba(100, 100, 100, 0.7);
+  box-shadow: 0px 2px 4px ${props => props.dark ? 'rgba(70, 18, 11, 0.7)' : 'rgba(100, 100, 100, 0.7)'}; ;
   margin: 0px;
   display: flex;
   flex-direction: row;
@@ -49,12 +50,16 @@ const SHeader = styled.nav`
   justify-content: space-between;
   height: 3rem;
   padding: 0 10px;
+  transition: 0.5s ease-out;
+  background: ${props => props.dark ? 'rgb(140, 35, 21)' : 'rgb(238, 59, 27)'};
 `;
 
 function Header({ handler, avatar }) {
+  const [state] = useContext(StateContext);
+  const { darkMode } = state;
 
   return (
-    <SHeader name="header">
+    <SHeader name="header" dark={darkMode}>
       <FlexContainer>
         <HButton>
           <NavButton />

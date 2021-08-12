@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { useYTApi } from '../../utils/hooks/useYTApi';
 import { Redirect } from 'react-router';
+import { StateContext } from '../../providers/State';
 
 const YTFrame = styled.iframe`
   --aspect-ratio: calc(16 / 9);
@@ -30,7 +31,6 @@ const VideoTitle = styled.h2`
 `;
 
 const Description = styled.div`
-  color: #777;
   padding: 7px;
   border-radius: 0 0 7px 7px;
   font-size: 11pt;
@@ -42,15 +42,19 @@ const Detail = styled.div`
   @media (max-width: 1015px) {
     width: calc(100vw - 44.4px);
   }
-  background-color: white;
+  background: ${props => props.dark ? "#333" : "white"};
   border: 1px solid transparent;
   border-radius: 0 0 7px 7px;
   margin-bottom: auto;
-  box-shadow: 0px 2px 7px 2px rgba(100, 100, 100, 0.7);
+  box-shadow: 0px 2px 7px 2px ${props => props.dark ? "rgba(7, 7, 7, 0.7)" : "rgba(100, 100, 100, 0.7)"};
   padding-bottom: 7px;
+  transition: 0.5s ease-out;
 `;
 
 function VideoDetail({ id }) {
+  const [state] = useContext(StateContext);
+  const { darkMode } = state;
+
   let params = {
     id: id,
     part: 'snippet'
@@ -67,7 +71,7 @@ function VideoDetail({ id }) {
   }
 
   return (
-    <Detail title="video-details">
+    <Detail title="video-details" dark={darkMode}>
       <YTFrame src={`https://www.youtube-nocookie.com/embed/${id}`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
       <VideoTitle>{details[0].snippet.title}</VideoTitle>
       <Description>{details[0].snippet.description}</Description>

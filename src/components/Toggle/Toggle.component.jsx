@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { StateContext } from '../../providers/State';
+import { types } from '../../utils/constants';
+
+const transition = '0.15s ease-in';
+const lightColor = 'black';
+const darkColor = 'white';
 
 const Wrapper = styled.label`
   position: relative;
-  top: 10px;
   display: flex;
   flex-direction: row;
   cursor: pointer;
+  width: 150px;
+  height: 20px;
 `;
 
 const Input = styled.input`
@@ -14,23 +21,28 @@ const Input = styled.input`
   left: -9999px;
   top: -9999px;
   &:checked + span {
-    background-color: white;
+    background-color: ${darkColor};
     &:before {
       left: 18px;
-      background-color: white;
+      background-color: ${darkColor};
+    }
+    &:after {
+      content: 'Dark mode';
+      color: ${darkColor};
+      transition: ${transition};
     }
   }
 `;
 
 const Slider = styled.span`
-  margin: 0 7px;
-  display: flex;
+  margin: 0 5px;
   width: 36px;
   height: 8px;
   border-radius: 100px;
-  background-color: black;
+  background-color: ${lightColor};
   position: relative;
-  transition: 0.2s;
+  top: 7px;
+  transition: ${transition};
   &:before {
     content: '';
     position: absolute;
@@ -39,23 +51,35 @@ const Slider = styled.span`
     top: -5px;
     left: 0px;
     border-radius: 10px;
-    background-color: black;
-    transition: 0.22s;
+    background-color: ${lightColor};
+    transition: ${transition};
+  }
+  &:after {
+    content: 'Light mode';
+    color: ${lightColor};
+    width: 100px;
+    position: absolute;
+    top: -10px;
+    left: 43px;
+    transition: ${transition};
   }
 `;
 
-const Text = styled.span`
-  position: relative;
-  margin: 0;
-  top: -10px;
-`;
-
 function Toggle() {
+  const [state, dispatch] = useContext(StateContext);
+
+  function handleToggle() {
+    if (state.darkMode === false) {
+      dispatch({ type: types.TOGGLE_DARK_ON });
+    } else {
+      dispatch({ type: types.TOGGLE_DARK_OFF });
+    }
+  }
+
   return (
     <Wrapper>
-      <Input type="checkbox" />
+      <Input type="checkbox" onChange={handleToggle} />
       <Slider />
-      <Text> Dark mode </Text>
     </Wrapper>
   );
 }
