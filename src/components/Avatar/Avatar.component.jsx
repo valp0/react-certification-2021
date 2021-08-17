@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import noAcc from '../App/user_not-logged-in.png';
+import { StateContext } from '../../providers/State';
+import { types } from '../../utils/constants';
 
 const AvatarComp = styled.img`
   vertical-align: middle;
@@ -12,7 +14,18 @@ const AvatarComp = styled.img`
 `;
 
 function Avatar(props) {
-  return <AvatarComp src={props.src || noAcc} alt="Avatar" />;
+  const [state, dispatch] = useContext(StateContext);
+  const { loggedIn } = state;
+
+  function logUser() {
+    if (loggedIn) {
+      dispatch({ type: types.USER_LOGOUT });
+    } else {
+      dispatch({ type: types.USER_LOGIN });
+    }
+  }
+
+  return <AvatarComp src={props.src || noAcc} alt="Avatar" onClick={logUser} />;
 }
 
 export default Avatar;

@@ -24,7 +24,7 @@ const Card = styled.div`
   border-radius: 7px;
   box-shadow: 1px 2px 2px ${props => props.dark ? "rgba(7, 7, 7, 0.7)" : "rgba(100, 100, 100, 0.7)"};
   background-color: ${props => props.dark ? "#333" : "white"};
-  transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-out;
   cursor: pointer;
   animation: ${cardEntrance} 0.7s ease-in-out;
   animation-fill-mode: backwards;
@@ -65,9 +65,10 @@ const Anchor = styled(Link)`
   left: 0px;
 `;
 
-function VideoCard({ video }) {
+function VideoCard({ video, test }) {
   const [state] = useContext(StateContext);
-  const { darkMode } = state;
+  let { darkMode } = state;
+  if (test) darkMode = test;
 
   const { thumbnails, title, description } = video.snippet;
   const id = video.id.videoId;

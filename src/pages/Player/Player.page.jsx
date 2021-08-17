@@ -1,6 +1,6 @@
 import React/*, { useState, useEffect }*/ from 'react';
 // import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 // import { result } from '../../mock/youtube-videos-mock';
 
@@ -26,9 +26,6 @@ function Player({ testId }) {
 
   return (
     <>
-      <Link style={{ position: "absolute", left: "calc(100vw - 90px)", top: "50px" }} to="/" className="home-link">
-        home {/* I know it looks ugly this way, but this button will disappear in the near future */}
-      </Link>
       <PlayerLayout>
         <VideoDetail id={id} />
         <RelatedList id={id} />

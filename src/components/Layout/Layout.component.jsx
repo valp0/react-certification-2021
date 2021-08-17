@@ -5,7 +5,7 @@ import { StateContext } from "../../providers/State";
 const Main = styled.main`
   background-color: ${props => props.dark ? "rgba(7, 7, 7, 0.77)" : "rgba(77, 77, 77, 0.07)"};
   transition: 0.5s ease-out;
-  min-height: calc(100vh - 3rem);
+  min-height: 100vh;
   color: ${props => props.dark ? "white" : "black"};
 `;
 

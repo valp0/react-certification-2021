@@ -51,9 +51,10 @@ const Detail = styled.div`
   transition: 0.5s ease-out;
 `;
 
-function VideoDetail({ id }) {
+function VideoDetail({ id, test }) {
   const [state] = useContext(StateContext);
-  const { darkMode } = state;
+  let { darkMode } = state;
+  if (test) darkMode = test;
 
   let params = {
     id: id,
@@ -67,14 +68,20 @@ function VideoDetail({ id }) {
   }
 
   if (error || details.length < 1 || details === undefined) {
-    return <Redirect to="/404" />;
+    return test ? "Redirected to 404" : <Redirect to="/404" />;
   }
 
   return (
     <Detail title="video-details" dark={darkMode}>
-      <YTFrame src={`https://www.youtube-nocookie.com/embed/${id}`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
-      <VideoTitle>{details[0].snippet.title}</VideoTitle>
-      <Description>{details[0].snippet.description}</Description>
+      <YTFrame
+        src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1`}
+        title="YouTube video player"
+        frameBorder="0"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+      <VideoTitle title={"video-title"}>{details[0].snippet.title}</VideoTitle>
+      <Description title={"video-description"}>{details[0].snippet.description}</Description>
     </Detail>
   )
 }

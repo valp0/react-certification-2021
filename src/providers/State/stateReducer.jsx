@@ -1,9 +1,10 @@
 import { types } from "../../utils/constants";
+import { storage } from "../../utils/fns";
 
-const initialState = {
+const initialState = storage.exists() ? storage.get('context') : {
   darkMode: false,
+  query: 'wizeline',
   loggedIn: false,
-  sideMenu: false
 };
 
 const stateReducer = (state, action) => {
@@ -19,6 +20,24 @@ const stateReducer = (state, action) => {
         ...state,
         darkMode: false
       };
+
+    case types.SEARCH:
+      return {
+        ...state,
+        query: action.term
+      }
+
+    case types.USER_LOGIN:
+      return {
+        ...state,
+        loggedIn: true
+      }
+
+    case types.USER_LOGOUT:
+      return {
+        ...state,
+        loggedIn: false
+      }
 
     default:
       return state;

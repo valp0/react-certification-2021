@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { StateContext } from '../../providers/State';
 import { types } from '../../utils/constants';
 
-const transition = '0.15s ease-in';
+const transition = '0.15s ease-in, background-color 0.5s ease-out';
 const lightColor = 'black';
 const darkColor = 'white';
 
@@ -12,7 +12,7 @@ const Wrapper = styled.label`
   display: flex;
   flex-direction: row;
   cursor: pointer;
-  width: 150px;
+  width: 46px;
   height: 20px;
 `;
 
@@ -26,11 +26,11 @@ const Input = styled.input`
       left: 18px;
       background-color: ${darkColor};
     }
-    &:after {
-      content: 'Dark mode';
-      color: ${darkColor};
-      transition: ${transition};
-    }
+    // &:after {
+    //   content: 'Dark mode';
+    //   color: ${darkColor};
+    //   transition: ${transition};
+    // }
   }
 `;
 
@@ -54,19 +54,20 @@ const Slider = styled.span`
     background-color: ${lightColor};
     transition: ${transition};
   }
-  &:after {
-    content: 'Light mode';
-    color: ${lightColor};
-    width: 100px;
-    position: absolute;
-    top: -10px;
-    left: 43px;
-    transition: ${transition};
-  }
+  // &:after {
+  //   content: 'Light mode';
+  //   color: ${lightColor};
+  //   width: 100px;
+  //   position: absolute;
+  //   top: -10px;
+  //   left: 43px;
+  //   transition: ${transition};
+  // }
 `;
 
 function Toggle() {
   const [state, dispatch] = useContext(StateContext);
+  const { darkMode } = state;
 
   function handleToggle() {
     if (state.darkMode === false) {
@@ -78,7 +79,7 @@ function Toggle() {
 
   return (
     <Wrapper>
-      <Input type="checkbox" onChange={handleToggle} />
+      <Input type="checkbox" onChange={handleToggle} checked={darkMode} />
       <Slider />
     </Wrapper>
   );

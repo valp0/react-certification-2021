@@ -10,6 +10,7 @@ const HToggle = styled.label`
   position: relative;
   display: flex;
   flex-direction: row;
+  align-items: center;
   padding: 0 14px;
   cursor: pointer;
   @media (max-width: 620px) {
@@ -38,11 +39,20 @@ const FlexContainer = styled.div`
   align-items: center;
 `;
 
+const DMText = styled.span`
+  position: relative;
+  margin: 0;
+  margin-left: 2px;
+  top: 1px;
+  color: ${props => props.dark ? 'white' : 'black'};
+  transition: 0.5s ease-out;
+`;
+
 const SHeader = styled.nav`
   position: sticky;
   top: 0rem;
   z-index: 10;
-  box-shadow: 0px 2px 4px ${props => props.dark ? 'rgba(70, 18, 11, 0.7)' : 'rgba(100, 100, 100, 0.7)'}; ;
+  box-shadow: 0px 2px 4px ${props => props.dark ? 'rgba(70, 18, 11, 0.7)' : 'rgba(100, 100, 100, 0.7)'};
   margin: 0px;
   display: flex;
   flex-direction: row;
@@ -52,6 +62,7 @@ const SHeader = styled.nav`
   padding: 0 10px;
   transition: 0.5s ease-out;
   background: ${props => props.dark ? 'rgb(140, 35, 21)' : 'rgb(238, 59, 27)'};
+  user-select: none;
 `;
 
 function Header({ handler, avatar }) {
@@ -73,6 +84,9 @@ function Header({ handler, avatar }) {
       <FlexContainer>
         <HToggle>
           <Toggle />
+          <DMText dark={darkMode}>
+            Dark mode
+          </DMText>
         </HToggle>
 
         <HAvatar>

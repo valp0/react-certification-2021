@@ -13,6 +13,7 @@ const List = styled.div`
     width: calc(100vw - 58px);
     margin-top: 15px;
   }
+  user-select: none;
 `;
 
 function RelatedList({ id }) {

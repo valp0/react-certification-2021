@@ -4,7 +4,6 @@ import Header from '../Header';
 
 import HomePage from '../../pages/Home';
 import Player from '../../pages/Player';
-import LoginPage from '../../pages/Login';
 import NotFound from '../../pages/NotFound';
 import SecretPage from '../../pages/Secret';
 import Private from '../Private';
@@ -15,25 +14,16 @@ import StateProvider from '../../providers/State';
 import Layout from '../Layout/Layout.component';
 
 function App() {
-
-  const [query, setQuery] = useState("wizeline");
   const [avatarSrc] = useState(noAcc);
-
-  function updateSearch(newSearch) {
-    setQuery(newSearch);
-  }
 
   return (
     <BrowserRouter>
       <StateProvider>
-        <Header handler={updateSearch} avatar={avatarSrc} />
         <Layout>
+          <Header avatar={avatarSrc} />
           <Switch>
             <Route exact path="/">
-              <HomePage query={query} />
-            </Route>
-            <Route exact path="/login">
-              <LoginPage />
+              <HomePage />
             </Route>
             <Private exact path="/secret">
               <SecretPage />

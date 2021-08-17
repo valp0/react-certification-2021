@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import './NotFound.styles.css';
 
@@ -9,12 +8,9 @@ function NotFoundPage() {
 
   return (
     <section className="not-found" style={style}>
-      <Link to="/" className="home-link">
-        home
-      </Link>
-      <h3>Whoops! It seems this page does not exist!</h3>
+      <div style={{ fontWeight: "600", paddingTop: "20px", marginBottom: "20px" }} >Whoops! It seems this page does not exist!</div>
       <img src="404.gif" alt="page not found" />
-    </section>
+    </section >
   );
 }
 
