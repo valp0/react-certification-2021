@@ -5,7 +5,7 @@ function random(limit) {
 // Builds API call url
 function buildUrl(endpoint, params) {
   const API_URL = 'https://www.googleapis.com/youtube/v3';
-  const API_KEY = 'AIzaSyAf0JJTmiGjCManj9fYeFis5dfts9PYr00';
+  const API_KEY = process.env.REACT_APP_KEY4;
 
   // Build query params
   const queryParams = Object.keys(params).map((key) => {
