@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
+import { StateContext } from '../../providers/State';
+import SideMenu from '../SideMenu/SideMenu.component';
 
 const ButtonBar = styled.div`
   height: 2px;
   width: 20px;
-  background-color: white;
+  border-radius: 1px;
+  background-color: ${props => props.dark ? 'white' : 'black'};
   margin: 4px 0px;
+  transition: 0.5s ease-out;
 `;
 
 const Button = styled.button`
@@ -30,12 +34,22 @@ const Button = styled.button`
 `;
 
 function NavButton() {
+  const [menu, setMenu] = useState(false);
+  const [state] = useContext(StateContext);
+  const { darkMode } = state;
+
+  const show = () => { setMenu(true) }
+  const hide = () => { setMenu(false) }
+
   return (
-    <Button>
-      <ButtonBar />
-      <ButtonBar />
-      <ButtonBar />
-    </Button>
+    <>
+      <Button onClick={show} >
+        <ButtonBar dark={darkMode} />
+        <ButtonBar dark={darkMode} />
+        <ButtonBar dark={darkMode} />
+      </Button>
+      <SideMenu hide={hide} menu={menu} />
+    </>
   );
 }
 

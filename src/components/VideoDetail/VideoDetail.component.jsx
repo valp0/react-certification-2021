@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { useYTApi } from '../../utils/hooks/useYTApi';
 import { Redirect } from 'react-router';
+import { StateContext } from '../../providers/State';
 
 const YTFrame = styled.iframe`
   --aspect-ratio: calc(16 / 9);
@@ -30,7 +31,6 @@ const VideoTitle = styled.h2`
 `;
 
 const Description = styled.div`
-  color: #777;
   padding: 7px;
   border-radius: 0 0 7px 7px;
   font-size: 11pt;
@@ -42,15 +42,20 @@ const Detail = styled.div`
   @media (max-width: 1015px) {
     width: calc(100vw - 44.4px);
   }
-  background-color: white;
+  background: ${props => props.dark ? "#333" : "white"};
   border: 1px solid transparent;
   border-radius: 0 0 7px 7px;
   margin-bottom: auto;
-  box-shadow: 0px 2px 7px 2px rgba(100, 100, 100, 0.7);
+  box-shadow: 0px 2px 7px 2px ${props => props.dark ? "rgba(7, 7, 7, 0.7)" : "rgba(100, 100, 100, 0.7)"};
   padding-bottom: 7px;
+  transition: 0.5s ease-out;
 `;
 
-function VideoDetail({ id }) {
+function VideoDetail({ id, test }) {
+  const [state] = useContext(StateContext);
+  let { darkMode } = state;
+  if (test) darkMode = test;
+
   let params = {
     id: id,
     part: 'snippet'
@@ -63,14 +68,20 @@ function VideoDetail({ id }) {
   }
 
   if (error || details.length < 1 || details === undefined) {
-    return <Redirect to="/404" />;
+    return test ? "Redirected to 404" : <Redirect to="/404" />;
   }
 
   return (
-    <Detail title="video-details">
-      <YTFrame src={`https://www.youtube-nocookie.com/embed/${id}`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
-      <VideoTitle>{details[0].snippet.title}</VideoTitle>
-      <Description>{details[0].snippet.description}</Description>
+    <Detail title="video-details" dark={darkMode}>
+      <YTFrame
+        src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1`}
+        title="YouTube video player"
+        frameBorder="0"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+      <VideoTitle title={"video-title"}>{details[0].snippet.title}</VideoTitle>
+      <Description title={"video-description"}>{details[0].snippet.description}</Description>
     </Detail>
   )
 }

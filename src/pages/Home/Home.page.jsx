@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import VideoList from '../../components/VideoList';
+import { StateContext } from '../../providers/State';
 import { useYTApi } from '../../utils/hooks/useYTApi';
 
 const Container = styled.div`
   text-align: center;
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
   padding: 0 20px;
+  padding-bottom: 20px;
+  user-select: none;
 `;
 
 const Spinner = styled.div`
@@ -22,7 +24,10 @@ const Welcome = styled.h1`
   margin-top: 20px;
 `;
 
-function HomePage({ query }) {
+function HomePage() {
+  const [state] = useContext(StateContext);
+  const query = state.query;
+
   let params = {
     q: query,
     type: 'video',

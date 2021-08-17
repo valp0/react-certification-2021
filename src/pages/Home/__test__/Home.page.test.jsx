@@ -4,6 +4,7 @@ import React from 'react';
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom';
 import { result } from '../../../mock/youtube-videos-mock';
+import StateProvider from '../../../providers/State';
 
 // Importing and mocking axios
 import axios from 'axios';
@@ -16,7 +17,9 @@ const history = createMemoryHistory();
 afterEach(cleanup);
 beforeEach(() => render(
   <Router history={history}>
-    <Home query={'wizeline'} />
+    <StateProvider>
+      <Home query={'wizeline'} />
+    </StateProvider>
   </Router>
 ));
 
@@ -26,15 +29,23 @@ describe('home page', () => {
     expect(title).toBeInTheDocument();
   });
 
-  test('spinner renders', () => {
+  test('spinner renders', async () => {
     const loading = screen.getByTestId('spinner');
     expect(loading).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(loading).not.toBeInTheDocument();
+    });
   });
 
   test('video list renders', async () => {
-    const list = await waitFor(() => screen.findByTestId('video-list'));
+    const loading = screen.getByTestId('spinner');
+    await waitFor(() => {
+      expect(loading).not.toBeInTheDocument();
+    });
+
+    const list = await screen.findByTestId('video-list');
     expect(list).toBeInTheDocument();
   });
 
-  test.todo('should change background with dark mode');
 });

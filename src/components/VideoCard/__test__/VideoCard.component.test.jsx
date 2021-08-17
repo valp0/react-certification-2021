@@ -2,6 +2,7 @@ import { render, cleanup, screen } from '@testing-library/react';
 import VideoCard from '../';
 import { result } from '../../../mock/youtube-videos-mock';
 const video = result.data.items[1]; // Using sample video
+import StateProvider from '../../../providers/State';
 import React from 'react';
 
 import { createMemoryHistory } from 'history'
@@ -9,32 +10,53 @@ import { Router } from 'react-router-dom';
 
 const history = createMemoryHistory();
 afterEach(cleanup);
-beforeEach(() => render(
+const renderer = (dark) => render(
   <Router history={history}>
-    <VideoCard video={video} />
+    <StateProvider>
+      <VideoCard video={video} test={dark || false} />
+    </StateProvider>
   </Router>
-));
+);
 
 describe('video card', () => {
   test('card renders', () => {
+    renderer();
     const videoCard = screen.getByTestId('video-card');
     expect(videoCard).toBeInTheDocument();
   });
 
   test('thumbnail renders', () => {
+    renderer();
     const thumbnail = screen.getByAltText('thumbnail');
     expect(thumbnail).toBeInTheDocument();
   });
 
   test('title renders', () => {
+    renderer();
     const title = screen.getByTitle('title');
     expect(title).toBeInTheDocument();
   });
 
   test('description renders', () => {
+    renderer();
     const description = screen.getByTitle('description');
     expect(description).toBeInTheDocument();
   });
 
-  test.todo('should change background with dark mode');
+  test('card renders light mode', () => {
+    renderer();
+    const videoCard = screen.getByTestId('video-card');
+    const cardStyle = window.getComputedStyle(videoCard);
+    expect(cardStyle.backgroundColor).toBe("white");
+    expect(cardStyle.boxShadow).toBe("1px 2px 2px rgba(100,100,100,0.7)");
+  });
+
+  test('card renders dark mode', () => {
+    renderer(true);
+    const videoCard = screen.getByTestId('video-card');
+    const cardStyle = window.getComputedStyle(videoCard);
+    expect(cardStyle.backgroundColor).toBe("rgb(51, 51, 51)");
+    expect(cardStyle.boxShadow).toBe("1px 2px 2px rgba(7,7,7,0.7)");
+  });
+
 });

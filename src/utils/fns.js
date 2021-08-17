@@ -18,4 +18,29 @@ function buildUrl(endpoint, params) {
   return `${API_URL}/${endpoint}?${queryParams.join('&')}&key=${API_KEY}`;
 }
 
-export { random, buildUrl };
+const storage = {
+  get(key) {
+    try {
+      const rawValue = window.localStorage.getItem(key);
+      return JSON.parse(rawValue);
+    } catch (error) {
+      console.error(`Error parsing storage item "${key}".`);
+      return null;
+    }
+  },
+
+  set(key, value) {
+    window.localStorage.setItem(key, JSON.stringify(value));
+    console.log(value);
+  },
+
+  exists() {
+    if (window.localStorage.length > 0) {
+      return true;
+    }
+
+    return false;
+  },
+};
+
+export { random, buildUrl, storage };

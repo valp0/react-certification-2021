@@ -1,21 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom'
 import styled from 'styled-components';
+import { StateContext } from '../../providers/State';
 
 const Card = styled.div`
   height: 100px;
   width: 427px;
   border: 1px solid transparent;
-  background-color: white;
   cursor: pointer;
-  transition: 0.2s ease-in;
+  transition: 0.5s ease-out;
   overflow: hidden;
+  border-radius: 7px;
   &:hover {
-    background-color: lightgrey;
+    background-color: ${props => props.dark ? "#555" : "lightgrey"};
   }
   margin-bottom: 2px;
   @media (max-width: 1015px) {
     width: calc(100vw - 44.4px);
+  }
+  background: ${props => props.dark ? "#333" : "white"};
+  color: ${props => props.dark ? "white" : "black"};
   }
 `;
 
@@ -49,8 +53,11 @@ const Anchor = styled(Link)`
 `;
 
 function RelatedCard({ id, img, title }) {
+  const [state] = useContext(StateContext);
+  const { darkMode } = state;
+
   return (
-    <Card data-testid='video-card'>
+    <Card data-testid='video-card' dark={darkMode}>
       <Anchor to={`/watch/${id}`} >
         <Img src={img} />
         <Title title='title'> {title} </Title>
