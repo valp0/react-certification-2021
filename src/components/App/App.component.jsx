@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { HashRouter, Switch, Route } from 'react-router-dom';
 import Header from '../Header';
 
 import HomePage from '../../pages/Home';
@@ -18,7 +18,7 @@ import SearchProvider from '../../providers/Search/Search.provider';
 function App() {
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <AppearanceProvider>
         <AccountProvider>
           <SearchProvider>
@@ -48,7 +48,7 @@ function App() {
           </SearchProvider>
         </AccountProvider>
       </AppearanceProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

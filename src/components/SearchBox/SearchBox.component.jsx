@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useHistory } from "react-router-dom";
-// import { useAppearance } from '../../providers/Appearance';
+import { createHashHistory } from 'history';
 import { types } from '../../utils/constants';
 import { useSearch } from '../../providers/Search/Search.provider';
 
@@ -36,10 +35,9 @@ const TextBox = styled.input`
 `;
 
 function SearchBox() {
-  // const [state, dispatch] = useAppearance();
   const [state, dispatch] = useSearch();
   const [value, setValue] = useState("");
-  const history = useHistory();
+  const history = createHashHistory();
   const ENTER_KEY = 13;
 
   function searchIt(e) {
@@ -48,8 +46,8 @@ function SearchBox() {
       dispatch({ type: types.QUERY, term: search });
     }
 
-    const currentPath = window.location.pathname;
-    if (currentPath !== '/') {
+    const currentPath = window.location.hash;
+    if (currentPath !== '#/') {
       history.push('/');
     }
   }
