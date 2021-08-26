@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { StateContext } from '../../providers/State';
+import { useAccount } from '../../providers/Account';
 
 function Private({ children, test, ...rest }) {
-  const [state] = useContext(StateContext);
-  let { loggedIn: authenticated } = state;
+  const [state] = useAccount();
+  let { authenticated } = state;
   if (test) authenticated = true;
 
   return (

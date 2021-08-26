@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { StateContext } from '../../providers/State';
+import { useAppearance } from '../../providers/Appearance';
 import { types } from '../../utils/constants';
 
 const transition = '0.15s ease-in, background-color 0.5s ease-out';
@@ -26,11 +26,6 @@ const Input = styled.input`
       left: 18px;
       background-color: ${darkColor};
     }
-    // &:after {
-    //   content: 'Dark mode';
-    //   color: ${darkColor};
-    //   transition: ${transition};
-    // }
   }
 `;
 
@@ -54,27 +49,14 @@ const Slider = styled.span`
     background-color: ${lightColor};
     transition: ${transition};
   }
-  // &:after {
-  //   content: 'Light mode';
-  //   color: ${lightColor};
-  //   width: 100px;
-  //   position: absolute;
-  //   top: -10px;
-  //   left: 43px;
-  //   transition: ${transition};
-  // }
 `;
 
 function Toggle() {
-  const [state, dispatch] = useContext(StateContext);
+  const [state, dispatch] = useAppearance();
   const { darkMode } = state;
 
   function handleToggle() {
-    if (state.darkMode === false) {
-      dispatch({ type: types.TOGGLE_DARK_ON });
-    } else {
-      dispatch({ type: types.TOGGLE_DARK_OFF });
-    }
+    dispatch({ type: types.TOGGLE_DARK });
   }
 
   return (

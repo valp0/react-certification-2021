@@ -1,3 +1,5 @@
+import { users } from './users';
+
 function random(limit) {
   return Math.floor(Math.random() * limit);
 }
@@ -5,7 +7,7 @@ function random(limit) {
 // Builds API call url
 function buildUrl(endpoint, params) {
   const API_URL = 'https://www.googleapis.com/youtube/v3';
-  const API_KEY = process.env.REACT_APP_KEY4;
+  const API_KEY = 'AIzaSyAf0JJTmiGjCManj9fYeFis5dfts9PYr00';
 
   // Build query params
   const queryParams = Object.keys(params).map((key) => {
@@ -19,6 +21,10 @@ function buildUrl(endpoint, params) {
 }
 
 const storage = {
+  set(key, value) {
+    window.localStorage.setItem(key, JSON.stringify(value));
+  },
+
   get(key) {
     try {
       const rawValue = window.localStorage.getItem(key);
@@ -29,18 +35,40 @@ const storage = {
     }
   },
 
-  set(key, value) {
-    window.localStorage.setItem(key, JSON.stringify(value));
-    console.log(value);
+  remove(key) {
+    try {
+      window.localStorage.removeItem(key);
+      return null;
+    } catch (error) {
+      console.error(`Error deleting storage item "${key}".`);
+      return null;
+    }
   },
 
-  exists() {
-    if (window.localStorage.length > 0) {
+  exists(key) {
+    try {
+      window.localStorage.getItem(key);
       return true;
+    } catch (error) {
+      return false;
     }
-
-    return false;
   },
 };
 
-export { random, buildUrl, storage };
+// Mocked login authentification
+async function loginApi(rUsername, rPassword) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      try {
+        if (users[rUsername]?.password === rPassword) {
+          return resolve({ avatar: users[rUsername].avatarUrl, name: users[rUsername].name, user: users[rUsername].user });
+        }
+        return reject(new Error('Invalid credentials'));
+      } catch {
+        return reject(new Error('Invalid credentials'));
+      }
+    }, 777);
+  });
+}
+
+export { random, buildUrl, storage, loginApi };

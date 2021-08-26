@@ -1,7 +1,7 @@
 import { render, cleanup, screen } from '@testing-library/react';
 import RelatedCard from '../';
 import React from 'react';
-import StateProvider from '../../../providers/State';
+import AppearanceProvider from '../../../providers/Appearance';
 
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom';
@@ -10,9 +10,9 @@ const history = createMemoryHistory();
 afterEach(cleanup);
 beforeEach(() => render(
   <Router history={history}>
-    <StateProvider>
+    <AppearanceProvider>
       <RelatedCard id={'bkX4bBVe9R8'} img={'https://i.ytimg.com/vi/bkX4bBVe9R8/mqdefault.jpg'} title={'Acing the Wizeline Technical Assessment'} />
-    </StateProvider>
+    </AppearanceProvider>
   </Router>
 ));
 

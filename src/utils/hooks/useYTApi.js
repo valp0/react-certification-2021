@@ -16,10 +16,10 @@ function useYTApi({ endpoint, params }) {
         const responseItems = res.data.items;
 
         // Will print endpoint and size of response whenever API is called
-        console.log(
-          `Received ${responseItems.length} element${responseItems.length > 1 ? 's' : ''
-          } from /${url.split('/')[5].split('?')[0]}.`
-        );
+        // console.log(
+        //   `Received ${responseItems.length} element${responseItems.length > 1 ? 's' : ''
+        //   } from /${url.split('/')[5].split('?')[0]}.`
+        // );
 
         if (responseItems === undefined || responseItems.length < 1) {
           setError(true);

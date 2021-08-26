@@ -3,7 +3,8 @@ import Player from '../';
 import React from 'react';
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom';
-import StateProvider from '../../../providers/State';
+import AppearanceProvider from '../../../providers/Appearance';
+import AccountProvider from '../../../providers/Account';
 import { result } from '../../../mock/youtube-videos-mock';
 
 // Importing and mocking axios
@@ -17,9 +18,11 @@ const history = createMemoryHistory();
 afterEach(cleanup);
 beforeEach(() => render(
   <Router history={history}>
-    <StateProvider>
-      <Player testId={'bkX4bBVe9R8'} />
-    </StateProvider>
+    <AppearanceProvider>
+      <AccountProvider>
+        <Player testId={'bkX4bBVe9R8'} />
+      </AccountProvider>
+    </AppearanceProvider>
   </Router>
 ));
 

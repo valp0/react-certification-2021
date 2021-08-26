@@ -6,15 +6,18 @@ const videos = result.data.items.slice(1);
 
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom';
-import StateProvider from '../../../providers/State';
+import AppearanceProvider from '../../../providers/Appearance';
+import AccountProvider from '../../../providers/Account';
 
 const history = createMemoryHistory();
 afterEach(cleanup);
 beforeEach(() => render(
   <Router history={history}>
-    <StateProvider>
-      <VideoList videos={videos} />
-    </StateProvider>
+    <AppearanceProvider>
+      <AccountProvider>
+        <VideoList videos={videos} />
+      </AccountProvider>
+    </AppearanceProvider>
   </Router>
 ));
 

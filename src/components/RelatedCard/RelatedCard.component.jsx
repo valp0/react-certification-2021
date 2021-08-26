@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom'
 import styled from 'styled-components';
-import { StateContext } from '../../providers/State';
+import { useAppearance } from '../../providers/Appearance';
 
 const Card = styled.div`
   height: 100px;
   width: 427px;
-  border: 1px solid transparent;
+  border: 1px solid ${props => props.bordered ? (props.dark ? "white" : "black") : "transparent"};
   cursor: pointer;
   transition: 0.5s ease-out;
   overflow: hidden;
@@ -52,13 +52,13 @@ const Anchor = styled(Link)`
   }
 `;
 
-function RelatedCard({ id, img, title }) {
-  const [state] = useContext(StateContext);
+function RelatedCard({ id, img, title, fromFavs, bordered }) {
+  const [state] = useAppearance();
   const { darkMode } = state;
 
   return (
-    <Card data-testid='video-card' dark={darkMode}>
-      <Anchor to={`/watch/${id}`} >
+    <Card data-testid='video-card' dark={darkMode} bordered={bordered}>
+      <Anchor to={`${fromFavs ? "/favorites" : "/watch"}/${id}`} >
         <Img src={img} />
         <Title title='title'> {title} </Title>
       </Anchor >

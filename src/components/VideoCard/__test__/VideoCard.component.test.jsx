@@ -2,7 +2,8 @@ import { render, cleanup, screen } from '@testing-library/react';
 import VideoCard from '../';
 import { result } from '../../../mock/youtube-videos-mock';
 const video = result.data.items[1]; // Using sample video
-import StateProvider from '../../../providers/State';
+import AppearanceProvider from '../../../providers/Appearance';
+import AccountProvider from '../../../providers/Account';
 import React from 'react';
 
 import { createMemoryHistory } from 'history'
@@ -12,9 +13,11 @@ const history = createMemoryHistory();
 afterEach(cleanup);
 const renderer = (dark) => render(
   <Router history={history}>
-    <StateProvider>
-      <VideoCard video={video} test={dark || false} />
-    </StateProvider>
+    <AppearanceProvider>
+      <AccountProvider>
+        <VideoCard video={video} test={dark || false} />
+      </AccountProvider>
+    </AppearanceProvider>
   </Router>
 );
 

@@ -8,9 +8,7 @@ import { Router } from 'react-router-dom';
 const history = createMemoryHistory();
 afterEach(cleanup);
 beforeEach(() => render(
-  <Router history={history}>
-    <NotFound />
-  </Router>
+  <NotFound />
 ));
 
 describe('not found page', () => {

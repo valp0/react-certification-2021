@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import VideoList from '../../components/VideoList';
-import { StateContext } from '../../providers/State';
+import { useSearch } from '../../providers/Search/Search.provider';
 import { useYTApi } from '../../utils/hooks/useYTApi';
 
 const Container = styled.div`
@@ -25,7 +25,7 @@ const Welcome = styled.h1`
 `;
 
 function HomePage() {
-  const [state] = useContext(StateContext);
+  const [state] = useSearch();
   const query = state.query;
 
   let params = {

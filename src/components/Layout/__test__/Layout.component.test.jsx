@@ -3,21 +3,30 @@ import Layout from '../';
 import React from 'react';
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom';
-import StateProvider from '../../../providers/State';
+import AppearanceProvider from '../../../providers/Appearance';
+import AccountProvider from '../../../providers/Account';
 
 const history = createMemoryHistory();
 afterEach(cleanup);
-beforeEach(() => render(
-  <Router history={history}>
-    <StateProvider>
-      <Layout>
-        Children
-      </Layout>
-    </StateProvider>
-  </Router>
-));
+beforeEach(() => {
+  const domNode = document.createElement('div');
+  domNode.setAttribute('id', 'domNode');
+  document.body.appendChild(domNode);
+  render(
+    <Router history={history}>
+      <AppearanceProvider>
+        <AccountProvider>
+          <Layout>
+            Children
+          </Layout>
+        </AccountProvider>
+      </AppearanceProvider>
+    </Router>
+  )
+}
+);
 
-describe('side menu', () => {
+describe('layout', () => {
   test('layout renders', () => {
     const layout = screen.getByRole('main');
     expect(layout).toBeInTheDocument();
