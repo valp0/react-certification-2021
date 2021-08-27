@@ -1,6 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { StateContext } from '../../providers/State';
+import { useAppearance } from '../../providers/Appearance';
+import { types } from '../../utils/constants';
 import SideMenu from '../SideMenu/SideMenu.component';
 
 const ButtonBar = styled.div`
@@ -34,21 +35,22 @@ const Button = styled.button`
 `;
 
 function NavButton() {
-  const [menu, setMenu] = useState(false);
-  const [state] = useContext(StateContext);
-  const { darkMode } = state;
+  const [appearance, dispatch] = useAppearance();
+  const { darkMode } = appearance;
 
-  const show = () => { setMenu(true) }
-  const hide = () => { setMenu(false) }
+  const show = () => {
+    dispatch({ type: types.SHOW_MENU });
+    dispatch({ type: types.HIDE_CTNT });
+  }
 
   return (
     <>
       <Button onClick={show} >
-        <ButtonBar dark={darkMode} />
+        <ButtonBar dark={darkMode} data-testid="button-bar" />
         <ButtonBar dark={darkMode} />
         <ButtonBar dark={darkMode} />
       </Button>
-      <SideMenu hide={hide} menu={menu} />
+      <SideMenu />
     </>
   );
 }

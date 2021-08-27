@@ -4,7 +4,9 @@ import React from 'react';
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom';
 import { result } from '../../../mock/youtube-videos-mock';
-import StateProvider from '../../../providers/State';
+import AppearanceProvider from '../../../providers/Appearance';
+import AccountProvider from '../../../providers/Account';
+import SearchProvider from '../../../providers/Search';
 
 // Importing and mocking axios
 import axios from 'axios';
@@ -17,9 +19,13 @@ const history = createMemoryHistory();
 afterEach(cleanup);
 beforeEach(() => render(
   <Router history={history}>
-    <StateProvider>
-      <Home query={'wizeline'} />
-    </StateProvider>
+    <AppearanceProvider>
+      <AccountProvider>
+        <SearchProvider>
+          <Home query={'wizeline'} />
+        </SearchProvider>
+      </AccountProvider>
+    </AppearanceProvider>
   </Router>
 ));
 

@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Avatar from '../Avatar';
 import Toggle from '../Toggle';
 import NavButton from '../NavButton';
 import SearchBox from '../SearchBox';
-import { StateContext } from '../../providers/State';
+import { useAppearance } from '../../providers/Appearance';
 
 const HToggle = styled.label`
   position: relative;
@@ -65,8 +65,8 @@ const SHeader = styled.nav`
   user-select: none;
 `;
 
-function Header({ handler, avatar }) {
-  const [state] = useContext(StateContext);
+function Header() {
+  const [state] = useAppearance();
   const { darkMode } = state;
 
   return (
@@ -77,7 +77,7 @@ function Header({ handler, avatar }) {
         </HButton>
 
         <HSearchBox>
-          <SearchBox handler={handler} />
+          <SearchBox />
         </HSearchBox>
       </FlexContainer>
 
@@ -90,7 +90,7 @@ function Header({ handler, avatar }) {
         </HToggle>
 
         <HAvatar>
-          <Avatar src={avatar} />
+          <Avatar title="header-avatar" />
         </HAvatar>
       </FlexContainer>
     </SHeader>

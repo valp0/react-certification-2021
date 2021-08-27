@@ -4,7 +4,7 @@ import React from 'react';
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom';
 import { result } from '../../../mock/youtube-videos-mock';
-import StateProvider from '../../../providers/State';
+import AppearanceProvider from '../../../providers/Appearance';
 
 
 // Importing and mocking axios
@@ -18,9 +18,9 @@ const history = createMemoryHistory();
 afterEach(cleanup);
 const renderer = () => render(
   <Router history={history}>
-    <StateProvider>
+    <AppearanceProvider>
       <RelatedList id={'bkX4bBVe9R8'} />
-    </StateProvider>
+    </AppearanceProvider>
   </Router>
 );
 

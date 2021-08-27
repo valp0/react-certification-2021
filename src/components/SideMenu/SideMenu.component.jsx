@@ -1,13 +1,15 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Toggle from '../Toggle';
-import { StateContext } from '../../providers/State';
+import { useAppearance } from '../../providers/Appearance';
 import Avatar from '../Avatar';
+import { useAccount } from '../../providers/Account';
+import { types } from '../../utils/constants';
 
 const SideBar = styled.nav`
   background-color: ${props => props.dark ? 'rgb(140, 35, 21)' : 'rgb(238, 59, 27)'};
-  box-shadow: 2px 2px 4px ${props => props.dark ? 'rgba(70, 18, 11, 0.7)' : 'rgba(100, 100, 100, 0.7)'};
+  box-shadow: 2px 2px 4px ${props => props.show ? props.dark ? 'rgba(70, 18, 11, 0.7)' : 'rgba(100, 100, 100, 0.7)' : 'none'};
   color: ${props => props.dark ? 'white' : 'black'};
   display: flex;
   flex-direction: column;
@@ -19,9 +21,9 @@ const SideBar = styled.nav`
   z-index: 20;
   position: fixed;
   top: 0px; 
-  left: ${props => props.menu ? '0px' : '-375px'};
+  left: ${props => props.show ? '0px' : '-375px'};
   @media (max-width: 500px) {
-    left: ${props => props.menu ? '0px' : 'calc(-100vh - 4px)'};
+    left: ${props => props.show ? '0px' : 'calc(-100vh - 4px)'};
   }
   transition: 0.2s ease-in-out, background-color 0.5s ease-out;
   user-select: none;
@@ -91,19 +93,44 @@ const FlexContainer = styled.div`
   margin-bottom: 10px;
 `;
 
-function SideMenu({ hide, menu }) {
-  const [state] = useContext(StateContext);
-  const { darkMode, loggedIn } = state;
+const Logout = styled.div`
+  font-size: 25px;
+  transition: 0.5s ease-out;
+  color: ${props => props.$dark ? 'white' : 'black'};
+  width: 250px;
+  padding: 0px 25px;
+  margin: 7px;
+  &:hover {
+    color: ${props => props.$dark ? 'black' : 'white'};
+    text-shadow: white ${props => props.$dark && '0px 0px 10px, black'} 0px 0px 5px;
+    transition: 0.3s;
+  }
+  cursor: pointer;
+  margin-top: auto;
+  margin-bottom: 35px;
+`;
+
+function SideMenu() {
+  const [appearance, dispatch] = useAppearance();
+  const { darkMode, sideMenu } = appearance;
+
+  const [account, accDispatch] = useAccount();
+  const { authenticated } = account;
+
+  const hideMenu = useCallback(() => {
+    dispatch({ type: types.HIDE_MENU });
+    dispatch({ type: types.SHOW_CTNT });
+  }, [dispatch]);
 
   const burger = useRef(null);
   useEffect(() => {
     const handleBlur = (e) => {
       if (!burger.current.contains(e.target)) {
-        hide();
+        hideMenu();
       }
     }
 
-    if (menu) {
+    if (sideMenu) {
       document.addEventListener('click', handleBlur);
     } else {
       document.removeEventListener('click', handleBlur);
@@ -112,10 +139,15 @@ function SideMenu({ hide, menu }) {
     return () => {
       document.removeEventListener('click', handleBlur);
     }
-  }, [menu, hide])
+  }, [sideMenu, hideMenu]);
+
+  const logout = () => {
+    accDispatch({ type: types.USER_LOGOUT });
+    accDispatch({ type: types.USER_UNSETAVATAR });
+  }
 
   return (
-    <SideBar dark={darkMode} menu={menu} ref={burger}>
+    <SideBar dark={darkMode} show={sideMenu} ref={burger}>
 
       <FlexContainer>
         <NavAvatar>
@@ -126,12 +158,14 @@ function SideMenu({ hide, menu }) {
           <Toggle />
         </NavToggle>
 
-        <CloseBtn onClick={hide} $dark={darkMode} >&times;</CloseBtn>
+        <CloseBtn onClick={hideMenu} $dark={darkMode} >&times;</CloseBtn>
       </FlexContainer>
 
-      <NavLink onClick={hide} to='/' $dark={darkMode} >Home</NavLink>
+      <NavLink onClick={hideMenu} to='/' $dark={darkMode} >Home</NavLink>
 
-      {loggedIn && <NavLink onClick={hide} to='/404' $dark={darkMode} >Favorites</NavLink>}
+      {authenticated && <NavLink onClick={hideMenu} to='/favorites' $dark={darkMode} >Favorites</NavLink>}
+
+      {authenticated && <Logout onClick={logout} $dark={darkMode} >Logout</Logout>}
     </SideBar>
   );
 }

@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useHistory } from "react-router-dom";
-import { StateContext } from '../../providers/State';
+import { createHashHistory } from 'history';
 import { types } from '../../utils/constants';
+import { useSearch } from '../../providers/Search/Search.provider';
 
 const TextBox = styled.input`
   width: 50vw;
@@ -35,19 +35,19 @@ const TextBox = styled.input`
 `;
 
 function SearchBox() {
-  const [state, dispatch] = useContext(StateContext);
+  const [state, dispatch] = useSearch();
   const [value, setValue] = useState("");
-  const history = useHistory();
+  const history = createHashHistory();
   const ENTER_KEY = 13;
 
   function searchIt(e) {
     let search = e.target.value.trim()
     if (state.query !== search) {
-      dispatch({ type: types.SEARCH, term: search });
+      dispatch({ type: types.QUERY, term: search });
     }
 
-    const currentPath = window.location.pathname;
-    if (currentPath !== '/') {
+    const currentPath = window.location.hash;
+    if (currentPath !== '#/') {
       history.push('/');
     }
   }

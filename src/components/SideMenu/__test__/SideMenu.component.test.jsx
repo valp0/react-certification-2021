@@ -3,7 +3,9 @@ import SideMenu from '../';
 import React from 'react';
 import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom';
-import StateProvider from '../../../providers/State';
+import AppearanceProvider from '../../../providers/Appearance';
+import AccountProvider from '../../../providers/Account';
+import { storage } from '../../../utils/fns';
 
 const hide = jest.fn();
 const menu = true;
@@ -11,9 +13,11 @@ const history = createMemoryHistory();
 afterEach(cleanup);
 beforeEach(() => render(
   <Router history={history}>
-    <StateProvider>
-      <SideMenu hide={hide} menu={menu} />
-    </StateProvider>
+    <AppearanceProvider>
+      <AccountProvider>
+        <SideMenu hide={hide} menu={menu} />
+      </AccountProvider>
+    </AppearanceProvider>
   </Router>
 ));
 
@@ -41,7 +45,7 @@ describe('side menu', () => {
   test('close button works', () => {
     const close = screen.getByText('×');
     fireEvent.click(close);
-    expect(hide).toHaveBeenCalled();
+    expect(storage.get('appearance').sideMenu).toBe(false);
   });
 
   test('home link renders', () => {
