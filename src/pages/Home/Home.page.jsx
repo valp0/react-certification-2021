@@ -25,16 +25,16 @@ const Welcome = styled.h1`
 `;
 
 function HomePage() {
-  const [state] = useSearch();
-  const query = state.query;
+  const { searchTerm } = useSearch();
+  const query = searchTerm;
 
   let params = {
     q: query,
     type: 'video',
     part: ['id', 'snippet'],
     order: 'relevance',
-    maxResults: 12
-  }
+    maxResults: 12,
+  };
 
   const [videos, isLoading, error] = useYTApi({ endpoint: 'search', params: params });
 
@@ -44,7 +44,7 @@ function HomePage() {
         <Welcome>Welcome to the Challenge!</Welcome>
         <Spinner className="spinner" data-testid="spinner" />
       </Container>
-    )
+    );
   }
 
   if (error) {
@@ -53,7 +53,7 @@ function HomePage() {
         <Welcome>Welcome to the Challenge!</Welcome>
         <h5>Couldn&apos;t find any videos for your search :(</h5>
       </Container>
-    )
+    );
   }
 
   return (
