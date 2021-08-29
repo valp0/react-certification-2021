@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { createHashHistory } from 'history';
-import { types } from '../../utils/constants';
 import { useSearch } from '../../providers/Search/Search.provider';
 
 const TextBox = styled.input`
@@ -35,15 +34,15 @@ const TextBox = styled.input`
 `;
 
 function SearchBox() {
-  const [state, dispatch] = useSearch();
-  const [value, setValue] = useState("");
+  const { searchTerm, setSearchTerm } = useSearch();
+  const [value, setValue] = useState('');
   const history = createHashHistory();
   const ENTER_KEY = 13;
 
   function searchIt(e) {
-    let search = e.target.value.trim()
-    if (state.query !== search) {
-      dispatch({ type: types.QUERY, term: search });
+    let search = e.target.value.trim();
+    if (searchTerm !== search) {
+      setSearchTerm(search);
     }
 
     const currentPath = window.location.hash;

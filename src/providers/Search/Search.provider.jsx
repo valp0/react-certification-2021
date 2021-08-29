@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useEffect, useReducer } from "react";
-import { storage } from "../../utils/fns";
-import searchReducer, { initialSearch } from "./searchReducer";
+import React, { createContext, useContext, useEffect, useReducer } from 'react';
+import { storage } from '../../utils/fns';
+import searchReducer, { initialSearch } from './searchReducer';
+import { types } from '../../utils/constants';
 
 const SearchContext = createContext(null);
 
@@ -19,8 +20,12 @@ function SearchProvider({ children }) {
     storage.set('search', state);
   }, [state]);
 
+  const setSearchTerm = (searchTerm) => {
+    dispatch({ type: types.QUERY, term: searchTerm });
+  };
+
   return (
-    <SearchContext.Provider value={[state, dispatch]}>
+    <SearchContext.Provider value={{ searchTerm: state.query, setSearchTerm }}>
       {children}
     </SearchContext.Provider>
   );
