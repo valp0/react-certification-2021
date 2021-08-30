@@ -20,8 +20,8 @@ const NoVids = styled.div`
 `;
 
 function Favorites() {
-  const [account] = useAccount();
-  const { name, favorites, user } = account;
+  const { accountCtx } = useAccount();
+  const { name, favorites, user } = accountCtx;
 
   if (!favorites[user]) {
     return (

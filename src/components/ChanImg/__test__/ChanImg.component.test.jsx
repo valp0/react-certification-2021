@@ -1,4 +1,4 @@
-import { render, cleanup, screen, waitFor, act } from '@testing-library/react';
+import { render, cleanup, screen, waitFor } from '@testing-library/react';
 import ChanImg from '../';
 import React from 'react';
 import { channel } from '../../../mock/youtube-channel-mock';
@@ -21,8 +21,7 @@ describe('channel image', () => {
     await waitFor(() => {
       expect(loading).not.toBeInTheDocument();
     });
-    const channel = screen.getByAltText('channel');
-    expect(channel).toBeInTheDocument();
+    const channelImg = screen.getByAltText('channel');
+    expect(channelImg).toBeInTheDocument();
   });
-
 });

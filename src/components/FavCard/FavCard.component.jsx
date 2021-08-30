@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAccount } from '../../providers/Account';
 import { useAppearance } from '../../providers/Appearance';
-import { types } from '../../utils/constants';
 
 const SCard = styled.div`
   display: flex;
@@ -52,6 +51,7 @@ const TitleAndDesc = styled.div`
   @media (max-width: 880px) {
     width: calc(100vw - 40px);
   }
+  padding-bottom: 7px;
 `;
 
 const Title = styled.h2`
@@ -102,14 +102,14 @@ const FavButton = styled.button`
 `;
 
 function FavCard({ video }) {
-  const [appearance] = useAppearance();
-  const { darkMode } = appearance;
-  const accDispatch = useAccount()[1];
+  const { appearanceCtx } = useAppearance();
+  let { darkMode } = appearanceCtx;
+  const { AccountFns } = useAccount();
   const [show, setShow] = useState(false);
 
   const removeFromFavs = (e) => {
     e.preventDefault();
-    accDispatch({ type: types.REMOVE_FROM_FAVS, id: video.id })
+    AccountFns.removeFav(video.id);
   }
 
   const showButton = () => {

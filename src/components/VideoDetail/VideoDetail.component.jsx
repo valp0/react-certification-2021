@@ -5,7 +5,6 @@ import { Redirect } from 'react-router';
 import { useAppearance } from '../../providers/Appearance';
 import ChanImg from '../ChanImg';
 import { useAccount } from '../../providers/Account';
-import { types } from '../../utils/constants';
 
 const YTFrame = styled.iframe`
   --aspect-ratio: calc(16 / 9);
@@ -38,9 +37,10 @@ const Description = styled.div`
   border-radius: 0 0 7px 7px;
   font-size: 11pt;
   white-space: pre-wrap;
-  max-height: ${props => props.showFull ? '5000px' : '115px'};
+  max-height: ${props => props.showFull ? '2400px' : '157px'};
   overflow: hidden;
-  transition: max-height 0.77s ease-in-out;
+  text-overflow: ellipsis;
+  transition: max-height 0.5s ease-in-out;
 `;
 
 const Detail = styled.div`
@@ -94,13 +94,7 @@ const SizeSelector = styled.label`
   user-select: none;
 `;
 
-const Input = styled.input`
-  position: absolute;
-  left: -9999px;
-  top: -9999px;
-`;
-
-const Text = styled.span`
+const Arrow = styled.span`
   text-decoration: underline inherit;
   font-size: 9pt;
   height: 20px;
@@ -152,11 +146,11 @@ const FavsButton = styled.button`
 function VideoDetail({ id, test }) {
   const [showFull, setShowFull] = useState(false);
   const [highlight, setHighlight] = useState(false);
-  const [account, accDispatch] = useAccount();
-  const { favorites, user, authenticated } = account;
+  const { accountCtx, AccountFns } = useAccount();
+  const { favorites, user, authenticated } = accountCtx;
 
-  const [state] = useAppearance();
-  let { darkMode } = state;
+  const { appearanceCtx } = useAppearance();
+  let { darkMode } = appearanceCtx;
   if (test) darkMode = test;
 
   let vidParams = {
@@ -167,29 +161,28 @@ function VideoDetail({ id, test }) {
 
   const toggleDescription = () => { setShowFull(showFull => !showFull) }
 
+  const alreadyInFavs = () => {
+    if (!favorites[user]) return false;
+    if (favorites[user].hasOwnProperty(id)) return true;
+    return false;
+  }
+
   // Add to favs if not in there yet, or remove to favs if already in favs
   const toFavs = () => {
     if (!authenticated) {
-      accDispatch({ type: types.OPEN_MODAL });
+      AccountFns.openModal();
       return;
     }
     if (alreadyInFavs()) {
-      accDispatch({ type: types.REMOVE_FROM_FAVS, id: id });
+      AccountFns.removeFav(id);
     } else {
-      accDispatch({
-        type: types.ADD_TO_FAVS,
-        id: id,
+      AccountFns.addFav({
+        id,
         thumbnail: details[0].snippet.thumbnails.medium.url,
         title: details[0].snippet.title,
         description: details[0].snippet.description
       });
     }
-  }
-
-  const alreadyInFavs = () => {
-    if (!favorites[user]) return false;
-    if (favorites[user].hasOwnProperty(id)) return true;
-    return false;
   }
 
   if (isLoading) {
@@ -234,12 +227,9 @@ function VideoDetail({ id, test }) {
         </a>
 
         <SizeSelector>
-          <Input type="checkbox" onChange={toggleDescription} checked={showFull} />
-
-
-          <Text showFull={showFull} dark={darkMode} highlight={highlight}>
+          <Arrow showFull={showFull} dark={darkMode} highlight={highlight} onClick={toggleDescription}>
             ▼
-          </Text>
+          </Arrow>
         </SizeSelector>
       </ChannelData>
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useAppearance } from '../../providers/Appearance';
-import { types } from '../../utils/constants';
 import SideMenu from '../SideMenu/SideMenu.component';
 
 const ButtonBar = styled.div`
@@ -35,12 +34,11 @@ const Button = styled.button`
 `;
 
 function NavButton() {
-  const [appearance, dispatch] = useAppearance();
-  const { darkMode } = appearance;
+  const { appearanceCtx, AppearanceFns } = useAppearance();
+  const { darkMode } = appearanceCtx;
 
   const show = () => {
-    dispatch({ type: types.SHOW_MENU });
-    dispatch({ type: types.HIDE_CTNT });
+    AppearanceFns.showMenu();
   }
 
   return (

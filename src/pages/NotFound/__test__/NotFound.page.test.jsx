@@ -2,10 +2,6 @@ import { render, cleanup, screen } from '@testing-library/react';
 import NotFound from '../';
 import React from 'react';
 
-import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
-
-const history = createMemoryHistory();
 afterEach(cleanup);
 beforeEach(() => render(
   <NotFound />

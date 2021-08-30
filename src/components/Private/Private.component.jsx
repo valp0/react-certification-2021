@@ -3,8 +3,8 @@ import { Route, Redirect } from 'react-router-dom';
 import { useAccount } from '../../providers/Account';
 
 function Private({ children, test, ...rest }) {
-  const [state] = useAccount();
-  let { authenticated } = state;
+  const { accountCtx } = useAccount();
+  let { authenticated } = accountCtx;
   if (test) authenticated = true;
 
   return (

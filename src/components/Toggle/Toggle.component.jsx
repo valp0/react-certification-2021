@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useAppearance } from '../../providers/Appearance';
-import { types } from '../../utils/constants';
 
 const transition = '0.15s ease-in, background-color 0.5s ease-out';
 const lightColor = 'black';
@@ -52,11 +51,11 @@ const Slider = styled.span`
 `;
 
 function Toggle() {
-  const [state, dispatch] = useAppearance();
-  const { darkMode } = state;
+  const { appearanceCtx, AppearanceFns } = useAppearance();
+  const { darkMode } = appearanceCtx;
 
   function handleToggle() {
-    dispatch({ type: types.TOGGLE_DARK });
+    AppearanceFns.toggleDark();
   }
 
   return (

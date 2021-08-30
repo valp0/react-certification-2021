@@ -29,8 +29,8 @@ const Content = styled.div`
 `;
 
 function Layout({ children }) {
-  const [appearance] = useAppearance();
-  const { darkMode, sideMenu, hideContent } = appearance;
+  const { appearanceCtx } = useAppearance();
+  const { darkMode, sideMenu, hideContent } = appearanceCtx;
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { buildUrl } from '../fns';
+import { buildUrl, storage } from '../fns';
 
 function useYTApi({ endpoint, params }) {
   const [response, setResponse] = useState(null);
@@ -9,7 +9,27 @@ function useYTApi({ endpoint, params }) {
   const url = buildUrl(endpoint, params);
 
   useEffect(() => {
+    // Will remove everything after &key= in a string
+    const removeKey = (fullUrl) => {
+      const index = fullUrl.indexOf('&key=');
+      const noKeyUrl = fullUrl.slice(0, index);
+      return noKeyUrl;
+    }
+
     async function callApi() {
+      const noKeyUrl = removeKey(url);
+
+      if (!storage.get("cache")) {
+        storage.set("cache", {});
+      }
+
+      if (storage.get("cache")[noKeyUrl]) {
+        setResponse(storage.get("cache")[noKeyUrl]);
+        setError(false);
+        setTimeout(() => setIsLoading(false));
+        return;
+      }
+
       setIsLoading(true);
       try {
         const res = await axios.get(url);
@@ -27,6 +47,11 @@ function useYTApi({ endpoint, params }) {
         } else {
           setError(false);
           setResponse(responseItems);
+
+          const oldCache = storage.get("cache");
+          const curResult = { [noKeyUrl]: responseItems };
+          const updCache = { ...oldCache, ...curResult };
+          storage.set("cache", updCache);
         }
       } catch (e) {
         setError(true);

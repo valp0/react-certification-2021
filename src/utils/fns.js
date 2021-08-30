@@ -1,13 +1,9 @@
 import { users } from './users';
 
-function random(limit) {
-  return Math.floor(Math.random() * limit);
-}
-
 // Builds API call url
 function buildUrl(endpoint, params) {
   const API_URL = 'https://www.googleapis.com/youtube/v3';
-  const API_KEY = '';
+  const API_KEY = process.env.REACT_APP_YTKEY;
 
   // Build query params
   const queryParams = Object.keys(params).map((key) => {
@@ -43,19 +39,10 @@ const storage = {
       console.error(`Error deleting storage item "${key}".`);
       return null;
     }
-  },
-
-  exists(key) {
-    try {
-      window.localStorage.getItem(key);
-      return true;
-    } catch (error) {
-      return false;
-    }
-  },
+  }
 };
 
-// Mocked login authentification
+// Mocked login authentication
 async function loginApi(rUsername, rPassword) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -71,4 +58,4 @@ async function loginApi(rUsername, rPassword) {
   });
 }
 
-export { random, buildUrl, storage, loginApi };
+export { buildUrl, storage, loginApi };

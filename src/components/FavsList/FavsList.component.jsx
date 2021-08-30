@@ -11,8 +11,8 @@ const List = styled.div`
 `;
 
 function FavsList() {
-  const [account] = useAccount();
-  const { favorites, user } = account;
+  const { accountCtx } = useAccount();
+  const { favorites, user } = accountCtx;
   const list = favorites[user];
 
   return (
