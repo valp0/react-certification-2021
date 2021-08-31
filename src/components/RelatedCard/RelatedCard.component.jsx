@@ -53,8 +53,8 @@ const Anchor = styled(Link)`
 `;
 
 function RelatedCard({ id, img, title, fromFavs, bordered }) {
-  const [state] = useAppearance();
-  const { darkMode } = state;
+  const { appearanceCtx } = useAppearance();
+  let { darkMode } = appearanceCtx;
 
   return (
     <Card data-testid='video-card' dark={darkMode} bordered={bordered}>

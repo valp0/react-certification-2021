@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import { useAccount } from '../../providers/Account';
-import { types } from '../../utils/constants';
 import { useAppearance } from "../../providers/Appearance";
 import { loginApi } from '../../utils/fns';
 
@@ -108,17 +107,16 @@ const Title = styled.h2`
 `;
 
 function Authenticate() {
-  const [account, accDispatch] = useAccount();
-  let { modal, loginFailed, authenticated } = account;
+  const { accountCtx, AccountFns } = useAccount();
+  let { modal, loginFailed, authenticated } = accountCtx;
   const [loading, setLoading] = useState(false);
 
-  const [appearance] = useAppearance();
-  let { darkMode } = appearance;
+  const { appearanceCtx } = useAppearance();
+  let { darkMode } = appearanceCtx;
 
-  const closeModal = useCallback(() => {
-    accDispatch({ type: types.CLOSE_MODAL });
-    accDispatch({ type: types.LOGIN_SUCCESS });
-  }, [accDispatch]);
+  const close = useCallback(() => {
+    AccountFns.closeModal();
+  }, [AccountFns]);
 
   const authenticate = useCallback(async (event) => {
     event.preventDefault();
@@ -127,15 +125,13 @@ function Authenticate() {
     setLoading(true);
     try {
       let { avatar, name, user } = await loginApi(rUsername, rPassword);
-      accDispatch({ type: types.USER_LOGIN });
-      accDispatch({ type: types.USER_SETAVATAR, avatar: avatar });
-      accDispatch({ type: types.USER_SETNAME, name: name, user: user });
-      closeModal();
+      AccountFns.login(name, user, avatar);
+      close();
     } catch {
-      accDispatch({ type: types.LOGIN_FAILED });
+      AccountFns.failedLogin();
     }
     setLoading(false);
-  }, [accDispatch, closeModal]);
+  }, [AccountFns, close]);
 
   const loginForm = useRef(null);
   useEffect(() => {
@@ -143,13 +139,13 @@ function Authenticate() {
 
     const handleBlur = (e) => {
       if (!loginForm.current.contains(e.target)) {
-        closeModal();
+        close();
       }
     }
 
     const handleEscape = (e) => {
       if (e.keyCode === ESCAPE_KEY) {
-        closeModal();
+        close();
       }
     }
 
@@ -165,13 +161,10 @@ function Authenticate() {
       document.removeEventListener('click', handleBlur);
       document.removeEventListener('keydown', handleEscape);
     }
-  }, [modal, closeModal]);
+  }, [modal, close]);
 
   const logout = () => {
-    accDispatch({ type: types.USER_LOGOUT });
-    accDispatch({ type: types.USER_UNSETAVATAR });
-    accDispatch({ type: types.USER_UNSETNAME });
-    // closeModal();
+    AccountFns.logout();
   }
 
   return ReactDOM.createPortal(!authenticated ?
@@ -200,7 +193,7 @@ function Authenticate() {
             <ErrorMsg>{loginFailed ? "Wrong username or password!" : <br></br>}</ErrorMsg>}
 
           <Buttons>
-            <Button dark={darkMode} onClick={closeModal} type="button" disabled={loading} title="close" >Close</Button>
+            <Button dark={darkMode} onClick={close} type="button" disabled={loading} title="close" >Close</Button>
 
             <Button dark={darkMode} type="submit" disabled={loading} title="submit" >Submit</Button>
           </Buttons>
@@ -214,7 +207,7 @@ function Authenticate() {
         <Buttons>
           <Button dark={darkMode} onClick={logout} type="button">Yes</Button>
 
-          <Button dark={darkMode} onClick={closeModal} type="button">No</Button>
+          <Button dark={darkMode} onClick={close} type="button">No</Button>
         </Buttons>
       </FormWrapper>
     </HideView>,

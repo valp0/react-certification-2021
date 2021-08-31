@@ -32,8 +32,8 @@ const Container = styled.div`
 `;
 
 function RelatedFavsList({ id }) {
-  const [account] = useAccount();
-  const { favorites, user } = account;
+  const { accountCtx } = useAccount();
+  const { favorites, user } = accountCtx;
   const favs = favorites[user];
 
   if (!favorites[user]) {

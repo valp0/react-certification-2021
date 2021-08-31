@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { storage } from "../../utils/fns";
+import { AppearanceFns } from "../contextHandlers";
 import appearanceReducer, { initialAppearance } from "./appearanceReducer";
 
 const AppearanceContext = createContext(null);
@@ -13,14 +14,14 @@ function useAppearance() {
 }
 
 const AppearanceProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(appearanceReducer, initialAppearance);
+  const [appearanceCtx, dispatch] = useReducer(appearanceReducer, initialAppearance);
 
   useEffect(() => {
-    storage.set('appearance', state);
-  }, [state]);
+    storage.set('appearance', appearanceCtx);
+  }, [appearanceCtx]);
 
   return (
-    <AppearanceContext.Provider value={[state, dispatch]}>
+    <AppearanceContext.Provider value={{ appearanceCtx, AppearanceFns: AppearanceFns(dispatch) }}>
       {children}
     </AppearanceContext.Provider>
   );

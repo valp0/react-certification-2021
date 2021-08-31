@@ -2,7 +2,7 @@ import { types } from "../../utils/constants";
 import { storage } from "../../utils/fns";
 
 const initialAppearance = {
-  darkMode: storage.get('appearance')?.darkMode || false,
+  darkMode: storage.get('appearance')?.darkMode || window.matchMedia('(prefers-color-scheme: dark)').matches,
   sideMenu: false,
   hideContent: false
 };

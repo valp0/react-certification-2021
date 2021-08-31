@@ -25,8 +25,8 @@ const Welcome = styled.h1`
 `;
 
 function HomePage() {
-  const [state] = useSearch();
-  const query = state.query;
+  const { searchCtx } = useSearch();
+  const query = searchCtx.query;
 
   let params = {
     q: query,

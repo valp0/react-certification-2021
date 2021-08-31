@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { types } from '../../utils/constants';
 import noAcc from '../App/user_not-logged-in.png';
 import { useAccount } from '../../providers/Account';
 
@@ -14,11 +13,11 @@ const AvatarComp = styled.img`
 `;
 
 function Avatar({ ...rest }) {
-  const [state, dispatch] = useAccount();
-  const { authenticated, userAvatar } = state;
+  const { accountCtx, AccountFns } = useAccount();
+  const { authenticated, userAvatar } = accountCtx;
 
   function logUser() {
-    dispatch({ type: types.OPEN_MODAL });
+    AccountFns.openModal();
   }
 
   return (

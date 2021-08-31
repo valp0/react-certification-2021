@@ -5,7 +5,6 @@ import Toggle from '../Toggle';
 import { useAppearance } from '../../providers/Appearance';
 import Avatar from '../Avatar';
 import { useAccount } from '../../providers/Account';
-import { types } from '../../utils/constants';
 
 const SideBar = styled.nav`
   background-color: ${props => props.dark ? 'rgb(140, 35, 21)' : 'rgb(238, 59, 27)'};
@@ -111,22 +110,21 @@ const Logout = styled.div`
 `;
 
 function SideMenu() {
-  const [appearance, dispatch] = useAppearance();
-  const { darkMode, sideMenu } = appearance;
+  const { appearanceCtx, AppearanceFns } = useAppearance();
+  const { darkMode, sideMenu } = appearanceCtx;
 
-  const [account, accDispatch] = useAccount();
-  const { authenticated } = account;
+  const { accountCtx, AccountFns } = useAccount();
+  const { authenticated } = accountCtx;
 
-  const hideMenu = useCallback(() => {
-    dispatch({ type: types.HIDE_MENU });
-    dispatch({ type: types.SHOW_CTNT });
-  }, [dispatch]);
+  const hide = useCallback(() => {
+    AppearanceFns.hideMenu();
+  }, [AppearanceFns]);
 
   const burger = useRef(null);
   useEffect(() => {
     const handleBlur = (e) => {
       if (!burger.current.contains(e.target)) {
-        hideMenu();
+        hide();
       }
     }
 
@@ -139,11 +137,10 @@ function SideMenu() {
     return () => {
       document.removeEventListener('click', handleBlur);
     }
-  }, [sideMenu, hideMenu]);
+  }, [sideMenu, hide]);
 
   const logout = () => {
-    accDispatch({ type: types.USER_LOGOUT });
-    accDispatch({ type: types.USER_UNSETAVATAR });
+    AccountFns.logout();
   }
 
   return (
@@ -158,12 +155,12 @@ function SideMenu() {
           <Toggle />
         </NavToggle>
 
-        <CloseBtn onClick={hideMenu} $dark={darkMode} >&times;</CloseBtn>
+        <CloseBtn onClick={hide} $dark={darkMode} >&times;</CloseBtn>
       </FlexContainer>
 
-      <NavLink onClick={hideMenu} to='/' $dark={darkMode} >Home</NavLink>
+      <NavLink onClick={hide} to='/' $dark={darkMode} replace >Home</NavLink>
 
-      {authenticated && <NavLink onClick={hideMenu} to='/favorites' $dark={darkMode} >Favorites</NavLink>}
+      {authenticated && <NavLink onClick={hide} to='/favorites' $dark={darkMode} replace >Favorites</NavLink>}
 
       {authenticated && <Logout onClick={logout} $dark={darkMode} >Logout</Logout>}
     </SideBar>

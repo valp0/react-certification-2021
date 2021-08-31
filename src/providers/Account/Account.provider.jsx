@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { storage } from "../../utils/fns";
+import { AccountFns } from "../contextHandlers";
 import accountReducer, { initialAccount } from "./accountReducer";
 
 const AccountContext = createContext(null);
@@ -13,14 +14,14 @@ function useAccount() {
 }
 
 function AccountProvider({ children }) {
-  const [state, dispatch] = useReducer(accountReducer, initialAccount);
+  const [accountCtx, dispatch] = useReducer(accountReducer, initialAccount);
 
   useEffect(() => {
-    storage.set('account', state);
-  }, [state]);
+    storage.set('account', accountCtx);
+  }, [accountCtx]);
 
   return (
-    <AccountContext.Provider value={[state, dispatch]}>
+    <AccountContext.Provider value={{ accountCtx, AccountFns: AccountFns(dispatch) }}>
       {children}
     </AccountContext.Provider>
   );
@@ -46,14 +47,14 @@ const notInitial = {
 }
 
 function MockAccProvider({ children }) {
-  const [state, dispatch] = useReducer(accountReducer, notInitial);
+  const [accountCtx, dispatch] = useReducer(accountReducer, notInitial);
 
   useEffect(() => {
-    storage.set('account', state);
-  }, [state]);
+    storage.set('account', accountCtx);
+  }, [accountCtx]);
 
   return (
-    <AccountContext.Provider value={[state, dispatch]}>
+    <AccountContext.Provider value={{ accountCtx, AccountFns: AccountFns(dispatch) }}>
       {children}
     </AccountContext.Provider>
   );
@@ -72,14 +73,14 @@ const notInitial2 = {
 }
 
 function MockAccProvider2({ children }) {
-  const [state, dispatch] = useReducer(accountReducer, notInitial2);
+  const [accountCtx, dispatch] = useReducer(accountReducer, notInitial2);
 
   useEffect(() => {
-    storage.set('account', state);
-  }, [state]);
+    storage.set('account', accountCtx);
+  }, [accountCtx]);
 
   return (
-    <AccountContext.Provider value={[state, dispatch]}>
+    <AccountContext.Provider value={{ accountCtx, AccountFns: AccountFns(dispatch) }}>
       {children}
     </AccountContext.Provider>
   );

@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components';
 import { useAccount } from '../../providers/Account';
 import { useAppearance } from '../../providers/Appearance';
-import { types } from '../../utils/constants';
 
 const cardEntrance = keyframes`
 from {
@@ -103,12 +102,12 @@ const FavsButton = styled.button`
 `;
 
 function VideoCard({ video, test }) {
-  const [appearance] = useAppearance();
+  const { appearanceCtx } = useAppearance();
+  let { darkMode } = appearanceCtx;
   const [hide, setHide] = useState(true);
-  const [account, accDispatch] = useAccount();
-  const { user, favorites, authenticated } = account;
+  const { accountCtx, AccountFns } = useAccount();
+  const { user, favorites, authenticated } = accountCtx;
 
-  let { darkMode } = appearance;
   if (test) darkMode = test;
 
   const { thumbnails, title, description } = video.snippet;
@@ -126,18 +125,17 @@ function VideoCard({ video, test }) {
   const toFavs = (e) => {
     e.preventDefault();
     if (!authenticated) {
-      accDispatch({ type: types.OPEN_MODAL });
+      AccountFns.openModal();
       return;
     }
     if (alreadyInFavs()) {
-      accDispatch({ type: types.REMOVE_FROM_FAVS, id: id });
+      AccountFns.removeFav(id);
     } else {
-      accDispatch({
-        type: types.ADD_TO_FAVS,
-        id: id,
+      AccountFns.addFav({
+        id,
         thumbnail: thumbnails.medium.url,
-        title: title,
-        description: description
+        title,
+        description
       });
     }
   }

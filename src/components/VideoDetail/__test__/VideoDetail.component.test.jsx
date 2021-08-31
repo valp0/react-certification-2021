@@ -10,6 +10,7 @@ import AccountProvider from '../../../providers/Account';
 
 // Importing and mocking axios
 import axios from 'axios';
+import { storage } from '../../../utils/fns';
 jest.mock('axios');
 
 // Mocking axios response
@@ -76,6 +77,7 @@ describe('video details', () => {
   });
 
   test('video details are not shown', async () => {
+    storage.remove("cache");
     axios.get.mockResolvedValue({ data: { items: [] } });
     renderer(true);
 

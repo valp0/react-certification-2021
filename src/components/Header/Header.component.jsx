@@ -66,8 +66,8 @@ const SHeader = styled.nav`
 `;
 
 function Header() {
-  const [state] = useAppearance();
-  const { darkMode } = state;
+  const { appearanceCtx } = useAppearance();
+  let { darkMode } = appearanceCtx;
 
   return (
     <SHeader name="header" dark={darkMode}>
